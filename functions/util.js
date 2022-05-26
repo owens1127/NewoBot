@@ -87,12 +87,14 @@ exports.sendLeaderboard = async (style, embed, channel, data) => {
     await channel.guild.members.fetch().then(membersCache => {
         for (var i = 0; i < sorted.length && i < 10; i++) {
             if (membersCache.get(sorted[i].id) !== undefined) {
-                let user = membersCache.get(sorted[i].id).user;
-                embed.addField(`${i + 1}. ${user}`, `XP: ${sorted[i][category]}`,
-                    false);
+                let member = membersCache.get(sorted[i].id);
+                embed.addField(`[${i + 1}]`,
+                    member.toString() + '\n\u200b' + `XP: ${sorted[i][category]}`,
+                    true);
             } else {
-                embed.addField(`${i + 1}. <@${sorted[i].id}>`, `XP: ${sorted[i][category]}`,
-                    false);
+                embed.addField(`[${i + 1}]`,
+                    `<@${sorted[i].id}>` + '\n\u200b' + `XP: ${sorted[i][category]}`,
+                    true);
             }
         }
     })
