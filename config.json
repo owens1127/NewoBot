@@ -1,6 +1,6 @@
 {
   "discord": {
-    "prefix": "!",
+    "prefix": ".",
     "ownerID": "189525406284644354",
     "iconURL": "https://images-ext-1.discordapp.net/external/d5yqx3HJyX7Er7wFJzbiP6drM3alOTX1gWIlxK612Kg/https/cdn.discordapp.com/avatars/490586718647615497/7e49a3df56477b15cf76030121f60dea.webp",
     "defaultRolePerms": 998684085825,
