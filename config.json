@@ -1,0 +1,89 @@
+{
+  "discord": {
+    "prefix": "!",
+    "ownerID": "189525406284644354",
+    "iconURL": "https://images-ext-1.discordapp.net/external/d5yqx3HJyX7Er7wFJzbiP6drM3alOTX1gWIlxK612Kg/https/cdn.discordapp.com/avatars/490586718647615497/7e49a3df56477b15cf76030121f60dea.webp",
+    "defaultRolePerms": 998684085825,
+    "logChannelID": "977806671533449236",
+    "reactEmoji": "<:newologo:923665949809344512>",
+    "xpCoolDownMs": 60000,
+    "contentChannel": "922274153690710077",
+    "guilds": [
+      {
+        "id": "922212188901478491",
+        "name": "Newo's Anemone",
+        "genChannel": "922212188901478494",
+        "premium": true
+      },
+      {
+        "id": "478229341139107860",
+        "name": "Newo's Test",
+        "genChannel": "922201328703389848",
+        "premium": true
+      },
+      {
+        "id": "434701823358795780",
+        "name": "Pillows",
+        "genChannel": "434701823358795782",
+        "premium": true
+      },
+      {
+        "id": "920192835091841054",
+        "name": "Abode",
+        "genChannel": "954622439822868570",
+        "premium": false
+      },
+      {
+        "id": "940175456492224512",
+        "name": "Dash",
+        "genChannel": "940175457519824909",
+        "premium": false
+      }
+    ]
+  },
+  "global": {
+    "timeHrOffset": -5,
+    "appname": "newobot"
+  },
+  "youtube": {
+    "channelID": "UCSSDDJKzi8_XnFCGsnZu6cg"
+  },
+  "twitch": {
+    "username": "newox"
+  },
+  "deprecated": {
+    "races": [
+      "White",
+      "Black",
+      "Hispanic",
+      "Middle-Eastern",
+      "South-Asian",
+      "East-Asian",
+      "Native-American",
+      "Pacific-Islander"
+    ],
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "days": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "NewoBot",
+  "version": "3.0.0",
+  "dependencies": {
+    "discord.js": "^13.7.0",
+    "mysql": "^2.18.1",
+    "node.js": "^0.0.1-security",
+    "nodejs": "^0.0.0",
+    "snekfetch": "^4.0.4",
+    "tmi.js": "^1.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
