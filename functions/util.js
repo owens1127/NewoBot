@@ -88,7 +88,7 @@ exports.sendLeaderboard = async (style, embed, channel, data) => {
         for (var i = 0; i < sorted.length && i < 10; i++) {
             if (membersCache.get(sorted[i].id) !== undefined) {
                 let user = membersCache.get(sorted[i].id).user;
-                embed.addField(`${i + 1}. ${user.username}`, `XP: ${sorted[i][category]}`,
+                embed.addField(`${i + 1}. ${user}`, `XP: ${sorted[i][category]}`,
                     false);
             } else {
                 embed.addField(`${i + 1}. ${sorted[i].id}`, `XP: ${sorted[i][category]}`,

@@ -60,5 +60,5 @@ exports.twitch = (client, channel, userstate, args, database) => {
 
 exports.help = {
     description: 'Leaderboard command, leaving the 1st option blank will display the all time leaderboard',
-    usage: `${config.prefix}lb {daily | weekly | monthly}`
+    usage: `${config.discord.prefix}lb {daily | weekly | monthly}`
 };

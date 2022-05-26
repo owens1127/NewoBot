@@ -21,7 +21,7 @@ exports.run = (key, client) => {
                 Date.parse(i.snippet.publishedAt)));
             filtered.forEach(v => {
                 let id = v.contentDetails.upload.videoId
-                let url = youtu.be/${id}
+                let url = `youtu.be/${id}`
                 console.log(`Retrieved YouTube Video ${url}`);
                 logs.logAction('Retrieved YouTube Video', {
                     title: v.snippet.title,

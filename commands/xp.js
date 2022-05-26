@@ -104,5 +104,5 @@ exports.twitch = (client, channel, userstate, args, database) => {
 
 exports.help = {
     description: 'XP tracker',
-    usage: `${config.prefix}xp (user)`
+    usage: `${config.discord.prefix}xp (user)`
 };

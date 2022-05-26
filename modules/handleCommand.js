@@ -34,8 +34,7 @@ exports.discord = (client, message, database) => {
                     args: '[' + args.join() + ']',
                     type: 'Discord'
                 });
-                console.log(`Processed Command \'${command}\' sent in ${message.guild.name} 
-                by user ${message.author.tag}`);
+                console.log(`Processed Command \'${command}\' sent in ${message.guild.name} by user ${message.author.tag}`);
             } catch (error) {
                 console.log(`Error processing Discord command \'${command}\'.`);
                 logs.logAction('Error processing Discord command', {
