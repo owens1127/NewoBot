@@ -41,8 +41,8 @@ exports.text = (client, message, database) => {
             };
 
             // check if level update
-            const newLvl = require(`./handleXP.js`).getLevel(newData.xp).level;
-            if (newLvl > require(`./handleXP.js`).getLevel(rows[0].xp).level) {
+            const newLvl = require(`./handleXP.js`).getLevelObject(newData.xp).level;
+            if (newLvl > require(`./handleXP.js`).getLevelObject(rows[0].xp).level) {
                 sendLevelUpMsg(message.author, message.channel, newLvl);
             }
 
@@ -147,8 +147,8 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                 monthly: data[0].monthly + newXp
             };
 
-            const newLvl = require('./handleXP.js').getLevel(newData.xp).level;
-            if (newLvl > require('./handleXP.js').getLevel(data[0].xp).level) {
+            const newLvl = require('./handleXP.js').getLevelObject(newData.xp).level;
+            if (newLvl > require('./handleXP.js').getLevelObject(data[0].xp).level) {
                 let channel = util.getOutputChannel(newVoiceState.guild);
                 sendLevelUpMsg(newVoiceState.member.user, channel, newLvl);
             }
@@ -232,7 +232,7 @@ exports.new = (member, database) => {
  * @returns {{level: number, progress: number}} the data about the level and progress towards
  *     the next
  */
-exports.getLevel = (xp) => {
+exports.getLevelObject = (xp) => {
     var recurseXp = xp;
     var i = 0;
     while (recurseXp >= 0) {

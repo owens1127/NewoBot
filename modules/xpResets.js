@@ -1,11 +1,6 @@
 const Discord = require('discord.js');
-const config = require('../config.json');
 const logs = require('../functions/logging');
-const xp_function = require('../functions/xp')
 const util = require('../functions/util');
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', ' Saturday'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'];
 
 /**
  * Resets the daily xp for everyone
@@ -45,8 +40,8 @@ exports.weekly = (client, database) => {
     date.setTime(date.getTime() - 24 * 60 * 60 * 1000);
     date2.setTime(date.getTime() - 6 * 24 * 60 * 60 * 1000);
 
-    let endDate = months[date.getMonth()] + ' ' + date.getDate();
-    let startDate = months[date2.getMonth()] + ' ' + date2.getDate();
+    let endDate = util.months[date.getMonth()] + ' ' + date.getDate();
+    let startDate = util.months[date2.getMonth()] + ' ' + date2.getDate();
 
     const guilds = client.guilds.cache;
     guilds.forEach(g => {
@@ -66,7 +61,7 @@ exports.weekly = (client, database) => {
             if (err) {
                 console.error(err);
             }
-            xp_function.sendLeaderboard('weekly', embed, channel, data);
+            util.sendLeaderboard('weekly', embed, channel, data);
         });
 
         database.query(`UPDATE ${table}
@@ -94,7 +89,7 @@ exports.monthly = (client, database) => {
 
     const date = new Date();
     date.setTime(date.getTime() - 24 * 60 * 60 * 1000);
-    const month = months[date.getMonth()];
+    const month = util.months[date.getMonth()];
 
     client.guilds.cache.forEach(g => {
         const embed = new Discord.Embed({
@@ -113,7 +108,7 @@ exports.monthly = (client, database) => {
             if (err) {
                 console.error(err);
             }
-            let winner = xp_function.sendLeaderboard('monthly', embed, channel, data);
+            let winner = util.sendLeaderboard('monthly', embed, channel, data);
             channel.send(`Congratulations, ${channel.guild.members.cache.get(winner.id)},
             you topped the leaderboard this month with ${winner.monthly} xp!`)
                 .then(msg => {

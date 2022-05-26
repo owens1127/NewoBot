@@ -62,8 +62,6 @@ exports.discord = (client, message, args, database) => {
 
             const embeds = [];
 
-            console.log(cmdArray);
-
             for (var i = 0; i < Math.floor(cmdArray.length / 25) + 1; i++) {
                 embeds.push(new Discord.MessageEmbed({
                     title: `Newo Bot Commands - Page ${i + 1}/${Math.floor(cmdArray.length / 25)
@@ -101,7 +99,7 @@ exports.twitch = (client, channel, userstate, args, database) => {
 
 /**
  * DMs a user a message and handles failures
- * @param {Discord.Message} member the message the bot is responding to
+ * @param {Discord.Message} message the message the bot is responding to
  * @param {Discord.MessageOptions} msgOptions the content of the message
  */
 function dmUser(message, msgOptions) {
@@ -125,5 +123,5 @@ function dmUser(message, msgOptions) {
 
 exports.help = {
     description: 'This command.',
-    usage: `${config.discord.prefix}help [command]`
+    usage: `${config.discord.prefix}help (command)`
 };
