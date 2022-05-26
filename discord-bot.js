@@ -104,7 +104,6 @@ exports.run = (env, db) => {
 
 // VOICE CHANNEL UPDATE
     discord_client.on('voiceStateUpdate', (oldVoiceState, newVoiceState) => {
-        console.log('beep');
         if (oldVoiceState.member.user.bot) {
             return;
         }
