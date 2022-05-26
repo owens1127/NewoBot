@@ -220,6 +220,7 @@ exports.new = (member, database) => {
                 logs.logAction('User added to Database', {
                     user: member, server: member.guild.name
                 });
+                console.log(`User ${member.tag} added to Database`);
             });
         }
     });
