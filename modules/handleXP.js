@@ -109,7 +109,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
         console.log(
             `Logging start time for voice channel XP for ${oldVoiceState.member.user.tag}...`);
 
-        const time = Math.floor(new Date().getTime() / 60000);
+        const time = Math.floor(new Date().getTime());
         database.query(`UPDATE ${table}
                         SET voiceStart = '${time}'
                         WHERE id = '${newVoiceState.member.id}'`, (err) => {
@@ -132,11 +132,11 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
         database.query(`SELECT *
                         FROM ${table}
                         WHERE id = '${newVoiceState.member.id}'`, (err, data) => {
-            const time = Math.floor(new Date().getTime() / 60000);
+            const time = Math.floor(new Date().getTime());
             const diff = time - data[0].voiceStart;
 
             let newXp = 0;
-            for (var i = 0; i < diff; i++) {
+            for (var i = 0; i < diff / 60000; i++) {
                 newXp += generateXp(6, 10);
             }
 
@@ -204,7 +204,7 @@ exports.new = (member, database) => {
                 weekly: xp,
                 monthly: xp,
                 lastMessage: newTime,
-                voiceStart: new Date().getTime() / 60000
+                voiceStart: new Date().getTime();
             };
 
             const sql = `INSERT INTO ${table} (id, xp, daily, weekly, monthly, lastMessage, voiceStart)
