@@ -167,6 +167,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                 }
                 logs.logAction('Updated XP for user', {
                     source: 'Voice XP',
+                    mins: diff / 60000,
                     user: newVoiceState.member,
                     server: newVoiceState.guild.name,
                     xp_gained: newXp
@@ -293,6 +294,10 @@ function getVoiceXPState(oldState, newState) {
         toAfk = oldState.wasInAFK ? 'left afk' : 'joined afk'
     }
 
+    console.log(sameChannel)
+    console.log(deafened)
+    console.log(toAfk)
+
     if (toAfk === 'still afk') {
         // do nothing
         return 0;
@@ -307,6 +312,9 @@ function getVoiceXPState(oldState, newState) {
         if (oldState.channelID === 'null') {
             // start (joined vc from a nothing)
             return 1;
+        } else if (newState.channelID === 'null') {
+            // end (left vc to nothing)
+            return 2;
         } else {
             return 0;
         }
