@@ -204,7 +204,7 @@ exports.new = (member, database) => {
                 weekly: xp,
                 monthly: xp,
                 lastMessage: newTime,
-                voiceStart: new Date().getTime();
+                voiceStart: new Date().getTime()
             };
 
             const sql = `INSERT INTO ${table} (id, xp, daily, weekly, monthly, lastMessage, voiceStart)
