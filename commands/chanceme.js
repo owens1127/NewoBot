@@ -1,8 +1,6 @@
 const Discord = require('discord.js');
 const config = require('../config.json');
-const fs = require('fs');
 const logs = require('../functions/logging');
-const util = require('../functions/util');
 
 /**
  * Handles a Discord command
@@ -34,6 +32,7 @@ exports.discord = (client, message, args, database) => {
         })
         .catch(console.error);
 };
+
 /**
  * Handles a Twitch command
  * @param {Discord.Client} client connection to discord
