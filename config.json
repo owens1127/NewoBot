@@ -50,40 +50,5 @@
   },
   "twitch": {
     "username": "newox"
-  },
-  "deprecated": {
-    "races": [
-      "White",
-      "Black",
-      "Hispanic",
-      "Middle-Eastern",
-      "South-Asian",
-      "East-Asian",
-      "Native-American",
-      "Pacific-Islander"
-    ],
-    "months": [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ],
-    "days": [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ]
   }
 }

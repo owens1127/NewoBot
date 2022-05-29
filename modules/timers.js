@@ -53,7 +53,7 @@ exports.discord = (env, client, database) => {
             // NEW MONTH
             xpResets.monthly(client, database);
         }
-        if (dayOfWeek === 5 && hour === 9) {
+        if (dayOfWeek === 5 && hour === 10) {
             // FRIDAY MORNING
             client.guilds.cache.forEach(g => {
                 let channel = util.getOutputChannel(g);
@@ -69,7 +69,7 @@ exports.discord = (env, client, database) => {
             })
         }
 
-    }, 60000); // (1 minute)
+    }, 60 * 1000); // (1 minute)
 
     // Status Update
     var minutesSinceCrash = 0;
@@ -86,7 +86,7 @@ exports.discord = (env, client, database) => {
             console.log(`Set activity to ${minutesSinceCrash} minutes without drowning`)
         }
 
-    }, 60000); // (1 minute)
+    }, 60 * 1000); // (1 minute)
 
     // Color Verification
     setInterval(() => {
@@ -102,20 +102,20 @@ exports.discord = (env, client, database) => {
         }, 1000);
 
         console.log(`All color roles now applied correctly.`);
-    }, 6 * 60 * 60000); // (6 hours)
+    }, 6 * 60 * 60 * 1000); // (6 hours)
 
     // LIVE ON TWITCH
     setInterval(() => {
         let cached = util.streaming(client);
         setTimeout(() => {
-            require(`./liveNow.js`).run(cached, env.TWITCH_CLIENT_ID, env.TWITCH_SECRET, client);
+            require(`./twitch`).run(cached, env.TWITCH_CLIENT_ID, env.TWITCH_SECRET, client);
         }, 3000);
 
     }, 60000); // (1 minute)
 
     // YOUTUBE VIDEOS
     setInterval(() => {
-        require(`./youtube.js`).run(env.YOUTUBE_API, client);
+        require(`./youtube`).run(env.YOUTUBE_API, client);
     }, 15 * 60000); // (15 minutes)
 
 };

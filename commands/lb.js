@@ -21,7 +21,7 @@ exports.discord = (client, message, args, database) => {
         }
 
         const embed = new Discord.MessageEmbed();
-        util.newoSignature(embed)
+        util.newoSignature(embed);
 
         if ((args[0]) && (args[0].toUpperCase() === 'DAILY')) {
             embed.setTitle(`${message.guild.name} Daily XP Rankings`);

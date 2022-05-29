@@ -9,7 +9,9 @@ const logs = require('../functions/logging');
  * @param client connection to discord
  */
 exports.run = (key, client) => {
+    console.log('Fetching YoutTube API data...')
     const channel = client.channels.cache.get(config.discord.contentChannel);
+    console.log(channel)
     const ytid = config.youtube.channelID;
     const fetchCount = 5;
 
@@ -25,7 +27,6 @@ exports.run = (key, client) => {
                 console.log(`Retrieved YouTube Video ${url}`);
                 logs.logAction('Retrieved YouTube Video', {
                     title: v.snippet.title,
-                    message_sent: msg.content,
                     url: url
                 });
                 channel.send(
@@ -42,9 +43,13 @@ exports.run = (key, client) => {
             });
         })
         .catch(console.error);
-
-    // Determines if a video is less than 15 minutes old given a timestamp
-    function recentUpload(ms) {
-        return (new Date().getTime() - ms) <= 15 * 60 * 1000;
-    }
 };
+
+/**
+ * Determines if a video is less than 15 minutes old given a timestamp
+ * @param {Number} ms the milliseconds of the current time
+ * @returns {boolean} true if the video is uploaded within 15 minutes
+ */
+function recentUpload(ms) {
+    return (new Date().getTime() - ms) <= 15 * 60 * 1000;
+}

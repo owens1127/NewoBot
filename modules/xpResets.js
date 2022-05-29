@@ -13,7 +13,7 @@ exports.daily = (client, database) => {
         const table = `xp_${g.id}`;
         database.query(`UPDATE ${table}
                         SET daily = 0
-                        WHERE 1`, () => {
+                        WHERE 1`, (err) => {
             if (err) {
                 console.error(err);
             }
@@ -61,7 +61,7 @@ exports.weekly = (client, database) => {
             if (err) {
                 console.error(err);
             }
-            util.sendLeaderboard('weekly', embed, channel, data);
+            util.sendLeaderboard('WEEKLY', embed, channel, data);
         });
 
         database.query(`UPDATE ${table}
@@ -108,7 +108,7 @@ exports.monthly = (client, database) => {
             if (err) {
                 console.error(err);
             }
-            let winner = util.sendLeaderboard('monthly', embed, channel, data);
+            let winner = util.sendLeaderboard('MONTHLY', embed, channel, data);
             channel.send(`Congratulations, ${channel.guild.members.cache.get(winner.id)},
             you topped the leaderboard this month with ${winner.monthly} xp!`)
                 .then(msg => {

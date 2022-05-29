@@ -9,7 +9,7 @@ const util = require('../functions/util');
  * @param {boolean} cached is Newo live already?
  * @param clientID the id of the client accessing the API
  * @param secret the client secret
- * @param discord_client the connection to discord
+ * @param {Discord.Client} discord_client the connection to discord
  */
 exports.run = (cached, clientID, secret, discord_client) => {
     console.log('Checking if Newo is live...')
@@ -54,7 +54,7 @@ exports.run = (cached, clientID, secret, discord_client) => {
 
                 // If just gone online
                 else {
-                    liveNow(getResponse.data[0], discord_client, channel, streamer);
+                    goLive(getResponse.data[0], discord_client, channel, streamer);
                 }
             }).catch(console.error);
     }).catch(console.error);
@@ -67,7 +67,7 @@ exports.run = (cached, clientID, secret, discord_client) => {
  * @param channel the channel to send the message
  * @param streamer the streamer's name
  */
-function liveNow(data, client, channel, streamer) {
+function goLive(data, client, channel, streamer) {
     console.log('Newo just went live!');
     let liveEmbed = new Discord.MessageEmbed({
         author: {
@@ -85,7 +85,10 @@ function liveNow(data, client, channel, streamer) {
     });
     util.newoSignature(liveEmbed);
 
-    channel.send(`🟣 **NEWO IS LIVE** 🟣\n${data.title}\n@everyone`, {embed: liveEmbed})
+    channel.send({
+        content: `🟣 **NEWO IS LIVE** 🟣\n${data.title}\n@everyone`,
+        embeds: [liveEmbed]
+    })
         .then(msg => {
             logs.logAction('Sent Live Announcement', {
                 title: data.title
