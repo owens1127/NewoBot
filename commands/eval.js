@@ -41,7 +41,7 @@ exports.discord = async (client, message, args, database) => {
             logs.logAction('Sent Message', {
                 content: msg.content, guild: msg.guild
             })
-            console.log(`Sent message: ${message.content}`)
+            console.log(`Sent message: ${msg.content}`)
         })
         .catch(console.error);
 };
