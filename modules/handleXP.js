@@ -115,11 +115,13 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                         WHERE id = '${newVoiceState.member.id}'`, (err) => {
             if (err) {
                 try {
+                    console.log('New user detected in Voice');
                     require('./handleXP.js').new(oldVoiceState.member, database);
                 } catch (err2) {
                     console.error(err);
                     console.error(err2);
                 }
+                return;
             }
             logs.logAction('User started earning XP', {
                 user: newVoiceState.member,
@@ -137,8 +139,11 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
         database.query(`SELECT *
                         FROM ${table}
                         WHERE id = '${newVoiceState.member.id}'`, (err, data) => {
+            if (err) {
+                return console.error(err);
+            }
             const time = Math.floor(new Date().getTime());
-            const minutes = Math.floor(time - data[0].voiceStart / 60000);
+            const minutes = Math.floor((time - data[0].voiceStart) / 60000);
 
             let newXp = 0;
             for (var i = 0; i < minutes; i++) {
@@ -167,9 +172,9 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                            monthly = ${newData.monthly}
                        WHERE id = '${newVoiceState.member.id}'`;
 
-            database.query(sql, () => {
+            database.query(sql, (err) => {
                 if (err) {
-                    throw err;
+                    return console.error(err);
                 }
                 logs.logAction('Updated XP for user', {
                     source: 'Voice XP',
