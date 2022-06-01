@@ -21,7 +21,7 @@ exports.text = (client, message, database) => {
             console.error(err);
         }
         if (rows[0] == undefined || rows[0] == null) {
-            return require('./handleXP').new(message.member, database);
+            return require('./handleXP.js').new(message.member, database);
         }
 
         let genXp = generateXp(15, 25);
@@ -114,7 +114,12 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                         SET voiceStart = '${time}'
                         WHERE id = '${newVoiceState.member.id}'`, (err) => {
             if (err) {
-                throw(err);
+                try {
+                    require('./handleXP.js').new(oldVoiceState.member, database);
+                } catch (err2) {
+                    console.error(err);
+                    console.error(err2);
+                }
             }
             logs.logAction('User started earning XP', {
                 user: newVoiceState.member,
@@ -133,10 +138,10 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                         FROM ${table}
                         WHERE id = '${newVoiceState.member.id}'`, (err, data) => {
             const time = Math.floor(new Date().getTime());
-            const diff = time - data[0].voiceStart;
+            const minutes = Math.floor(time - data[0].voiceStart / 60000);
 
             let newXp = 0;
-            for (var i = 0; i < diff / 60000; i++) {
+            for (var i = 0; i < minutes; i++) {
                 newXp += generateXp(6, 10);
             }
 
@@ -153,7 +158,8 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                 sendLevelUpMsg(newVoiceState.member.user, channel, newLvl);
             }
 
-            console.log(`${oldVoiceState.member.user.tag} earned ${newXp} xp over ${diff} minutes`);
+            console.log(
+                `${oldVoiceState.member.user.tag} earned ${newXp} xp over ${minutes} minutes`);
             let sql = `UPDATE ${table}
                        SET xp      = ${newData.xp},
                            daily   = ${newData.daily},
@@ -167,7 +173,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                 }
                 logs.logAction('Updated XP for user', {
                     source: 'Voice XP',
-                    mins: diff / 60000,
+                    mins: minutes,
                     user: newVoiceState.member,
                     server: newVoiceState.guild.name,
                     xp_gained: newXp
@@ -221,7 +227,7 @@ exports.new = (member, database) => {
                 logs.logAction('User added to Database', {
                     user: member, server: member.guild.name
                 });
-                console.log(`User ${member.tag} added to Database`);
+                console.log(`User ${member.user.tag} added to Database`);
             });
         }
     });
@@ -293,10 +299,6 @@ function getVoiceXPState(oldState, newState) {
     } else {
         toAfk = oldState.wasInAFK ? 'left afk' : 'joined afk'
     }
-
-    console.log(sameChannel)
-    console.log(deafened)
-    console.log(toAfk)
 
     if (toAfk === 'still afk') {
         // do nothing

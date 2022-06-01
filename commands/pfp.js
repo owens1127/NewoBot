@@ -59,5 +59,5 @@ exports.twitch = (client, channel, userstate, args, database) => {
 
 exports.help = {
     description: 'sends a link for someone\'s url',
-    usage: `${config.prefix}pfp [user]`
+    usage: `${config.discord.prefix}pfp [user]`
 };
