@@ -142,6 +142,14 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
             if (err) {
                 return console.error(err);
             }
+            if (data[0] == undefined) {
+                 try {
+                    console.log('New user detected in Voice');
+                    require('./handleXP.js').new(oldVoiceState.member, database);
+                } catch (err2) {
+                    console.error(err2);
+                }
+            }
             const time = Math.floor(new Date().getTime());
             const minutes = Math.floor((time - data[0].voiceStart) / 60000);
 
