@@ -12,7 +12,7 @@ const util = require('../functions/util');
  * @param {Discord.Client} discord_client the connection to discord
  */
 exports.run = (cached, clientID, secret, discord_client) => {
-    console.log('Checking if Newo is live...')
+    // console.log('Checking if Newo is live...')
 
     const streamer = config.twitch.username;
     const channel = discord_client.channels.cache.get(config.discord.contentChannel);
@@ -49,7 +49,7 @@ exports.run = (cached, clientID, secret, discord_client) => {
                 }
                 // If already posted
                 else if (cached) {
-                    console.log('Newo is already live');
+                    // console.log('Newo is already live');
                 }
 
                 // If just gone online
