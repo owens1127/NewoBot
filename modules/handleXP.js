@@ -149,6 +149,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                 } catch (err2) {
                     console.error(err2);
                 }
+                return;
             }
             const time = Math.floor(new Date().getTime());
             const minutes = Math.floor((time - data[0].voiceStart) / 60000);
