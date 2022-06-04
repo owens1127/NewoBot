@@ -11,7 +11,6 @@ const logs = require('../functions/logging');
 exports.run = (key, client) => {
     console.log('Fetching YoutTube API data...')
     const channel = client.channels.cache.get(config.discord.contentChannel);
-    console.log(channel)
     const ytid = config.youtube.channelID;
     const fetchCount = 5;
 
