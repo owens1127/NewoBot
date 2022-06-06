@@ -169,7 +169,11 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
             const newLvl = require('./handleXP.js').getLevelObject(newData.xp).level;
             if (newLvl > require('./handleXP.js').getLevelObject(data[0].xp).level) {
                 let channel = util.getOutputChannel(newVoiceState.guild);
-                sendLevelUpMsg(newVoiceState.member.user, channel, newLvl);
+                if (channel === null) {
+                    console.log(`${newVoiceState.member.user} leveled up to level ${newLvl}`);
+                } else {
+                    sendLevelUpMsg(newVoiceState.member.user, channel, newLvl);
+                }
             }
 
             console.log(
@@ -273,7 +277,7 @@ exports.getLevelObject = (xp) => {
  * @param {number} level the new level of the user
  */
 function sendLevelUpMsg(user, channel, level) {
-    console.log(`${user.toString()} leveled up to level ${level}`);
+    console.log(`${user} leveled up to level ${level}`);
     channel.send(`Level up, ${user.toString()}! You are now level ${level}!`)
         .then(msg => logs.logAction('Sent message', {
             content: msg.content, guild: msg.guild

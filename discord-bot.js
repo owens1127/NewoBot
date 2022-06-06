@@ -82,7 +82,8 @@ exports.run = (env, db) => {
             .then(msg => logs.logAction('Sent message', {
                 content: msg.content,
                 guild: msg.guild
-            }));
+            }))
+            .catch(console.error);
 
         if (util.isPremiumGuild(member.guild)) {
             require('./modules/roleColor.js').new(member);

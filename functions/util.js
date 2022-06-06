@@ -49,21 +49,21 @@ exports.newoSignature = (embed) => {
 /**
  * Finds the correct channel for the bot to put messages in
  * @param {Discord.Guild} guild the guild to resolve the output channel for
- * @returns {Discord.TextChannel} the resolved text channel
+ * @returns {Discord.TextChannel | null} the resolved text channel or null if no channel
  */
 exports.getOutputChannel = (guild) => {
-    let found = null;
     config.discord.guilds.forEach(serverConfig => {
             if (serverConfig.id === guild.id) {
+                if (serverConfig.genChannel === null) return null;
                 guild.channels.cache.forEach(channel => {
                     if (channel.id === serverConfig.genChannel) {
-                        found = channel;
+                        return channel;
                     }
                 });
             }
         }
     );
-    return found;
+    return null;
 }
 /**
  * Sends a leaderboard in discord
