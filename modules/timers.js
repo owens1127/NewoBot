@@ -17,7 +17,6 @@ exports.discord = (env, client, database) => {
     // RECONNECT CONNECTION TO DATABASE EVERY 5 MINUTES
     setInterval(() => {
         console.log(`Refreshing database connection...`);
-        logs.logAction('Refreshing Database Connection', {});
         database.query('SELECT 1');
     }, 300000);
 
@@ -79,11 +78,6 @@ exports.discord = (env, client, database) => {
             client.user.setActivity(
                 `over the anemone for ${minutesSinceCrash} minutes without drowning`,
                 {type: 'WATCHING'});
-            logs.logAction('Set Activity', {
-                activity: `over the anemone for ${minutesSinceCrash} minutes without drowning`,
-                type: 'WATCHING'
-            });
-            console.log(`Set activity to ${minutesSinceCrash} minutes without drowning`)
         }
 
     }, 60 * 1000); // (1 minute)
@@ -102,6 +96,7 @@ exports.discord = (env, client, database) => {
         }, 1000);
 
         console.log(`All color roles now applied correctly.`);
+        logs.logAction('Verified Color Roles', {});
     }, 6 * 60 * 60 * 1000); // (6 hours)
 
     // LIVE ON TWITCH
