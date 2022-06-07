@@ -193,7 +193,7 @@ dist
 # excluded
 local/
 wip/
+/commands/test.js
 
 # other
 NewoBot.iml
-

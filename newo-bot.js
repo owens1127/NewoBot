@@ -7,20 +7,41 @@ const twitch = require('./twitch-bot.js')
 console.log(`Started ${new Date()}`);
 
 // CONNECT TO DATABASE
-const database = mysql.createConnection({
-    host: env.DATABASE_HOST,
-    user: env.DATABASE_USER,
-    password: env.DATABASE_PASSWORD,
-    database: env.DATABASE
-});
-
-try {
-    database.connect();
-    console.log('Connected to database');
-} catch (error) {
-    console.error(error);
-}
+let database = connectToDatabase();
 
 // START BOTS
 discord.run(env, database);
 twitch.run(env, database);
+
+/**
+ * Connects to the database.
+ * @returns {Connection} the connection to the database
+ */
+function connectToDatabase() {
+    const url = env.CLEARDB_DATABASE_URL;
+    const split = url.split(":");
+    let databaseInfo = {
+        host: "",
+        user: "",
+        password: "",
+        database: ""
+    }
+
+    databaseInfo.user = split[1].substring(2)
+    const split2 = split[2].split("@")
+    databaseInfo.password = split2[0];
+    const split3 = split2[1].split("/")
+    databaseInfo.host = split3[0];
+    databaseInfo.database = split3[1].split("?")[0];
+
+
+    const database = mysql.createConnection(databaseInfo);
+
+    try {
+        database.connect();
+        console.log('Connected to database');
+    } catch (error) {
+        console.error(error);
+    }
+    return database;
+}

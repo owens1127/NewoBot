@@ -1,6 +1,7 @@
 const config = require('../config.json');
 const Discord = require('discord.js')
 const logs = require('./logging');
+const xpFunctions = require('../modules/handleXP');
 
 /**
  * Determines if a guild is one of Newo's special guild's with user roles
@@ -75,7 +76,7 @@ exports.getOutputChannel = (guild) => {
  *     highest xp
  */
 exports.sendLeaderboard = async (style, embed, channel, data) => {
-    console.log(`Generating a ${style} leaderboard embed in server ${channel.guild.name}`);
+    console.log(`Generating a ${style} leaderboard embed in server ${channel.guild.name}...`);
 
     let category = style.toLowerCase();
     if (category === 'all time') {
@@ -89,7 +90,9 @@ exports.sendLeaderboard = async (style, embed, channel, data) => {
             if (membersCache.get(sorted[i].id) !== undefined) {
                 let member = membersCache.get(sorted[i].id);
                 embed.addField(`[${i + 1}]`,
-                    member.toString() + '\n\u200b' + `XP: ${sorted[i][category]}`,
+                    member.toString()
+                    + '\n\u200b' + `XP: ${sorted[i][category]}`
+                    + '\n\u200b' + `Level: ${xpFunctions.getLevelObject(sorted[i][category]).level}`,
                     true);
             } else {
                 embed.addField(`[${i + 1}]`,

@@ -14,11 +14,11 @@ exports.discord = (env, client, database) => {
         });
     }, 180000);
 
-    // RECONNECT CONNECTION TO DATABASE EVERY 5 MINUTES
+    // RECONNECT CONNECTION TO DATABASE EVERY 30s
     setInterval(() => {
-        console.log(`Refreshing database connection...`);
+        // console.log(`Refreshing database connection...`);
         database.query('SELECT 1');
-    }, 300000);
+    }, 30 * 1000);
 
     // DATE CHECKER
     setInterval(() => {
@@ -114,3 +114,5 @@ exports.discord = (env, client, database) => {
     }, 15 * 60000); // (15 minutes)
 
 };
+
+
