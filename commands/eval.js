@@ -27,14 +27,21 @@ exports.discord = async (client, message, args, database) => {
     let output;
     let response;
     const input = args.join(' ')
+
+console.log(`Evaluating ${input}...`);
+
     try {
-        console.log(`Evaluating ${input}...`);
-        output = eval(input);
-        console.log(`${input} evaluates to ${output}`);
-        response = JSON.stringify(output, null," ").substring(0, 1024);
+       eval(input)
     } catch (e) {
         response = `Sorry ${message.author.username}, I can't do that :/`
+return;
     }
+
+output = eval(input);
+if (output !== undefined) {
+
+console.log(`${input} evaluates to ${output}`);
+        response = JSON.stringify(output, null," ").substring(0, 1024);
 
     message.channel.send(response)
         .then(msg => {
@@ -44,6 +51,9 @@ exports.discord = async (client, message, args, database) => {
             console.log(`Sent message: ${msg.content}`)
         })
         .catch(console.error);
+
+}
+       
 };
 
 /**
