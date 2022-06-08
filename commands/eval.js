@@ -42,7 +42,7 @@ if (output !== undefined) {
 
 console.log(`${input} evaluates to ${output}`);
         response = JSON.stringify(output, null," ").substring(0, 1024);
-
+}
     message.channel.send(response)
         .then(msg => {
             logs.logAction('Sent Message', {
@@ -51,8 +51,6 @@ console.log(`${input} evaluates to ${output}`);
             console.log(`Sent message: ${msg.content}`)
         })
         .catch(console.error);
-
-}
        
 };
 
