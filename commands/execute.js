@@ -24,40 +24,21 @@ exports.discord = async (client, message, args, database) => {
             .catch(console.error);
     }
 
-    let output;
-    let response;
     const input = args.join(' ')
-    console.log(`Evaluating ${input}...`);
+    console.log(`Executing ${input}...`);
 
     try {
-        output = eval(input);
-        if (output === null) {
-            response = "null"
-        } else if (output === undefined) {
-            response = "undefined"
-        } else if (typeof output === 'object' && typeof output.then === 'function') {
-            response = `Executed \`${input}\``;
-        } else {
-            const str = require('util').inspect(output);
-            console.log(`${input} evaluates to ${str}`);
-            response = str;
-        }
+        eval(input);
+        console.log('Executed ' + input);
+        logs.logAction('Executed Code', {
+            code: input
+        })
     } catch (e) {
-        response = e.toString();
+        console.error(e);
     }
 
-    while (response.length > 0) {
-        let sub = response.substring(0, 1024);
-        message.channel.send(sub)
-            .then(msg => {
-                logs.logAction('Sent Message', {
-                    content: msg.content, guild: msg.guild
-                })
-                console.log(`Sent message: ${msg.content}`)
-            })
-            .catch(console.error);
-        response = response.substring(1024);
-    }
+    await message.delete().catch(console.error);
+    console.log(`Deleted execute message`);
 
 };
 
@@ -96,6 +77,6 @@ exports.twitch = async (client, channel, userstate, args, database) => {
 };
 
 exports.help = {
-    description: 'super powerful command',
+    description: 'silently executes code',
     usage: `${config.discord.prefix}eval (Newo only)`
 };
