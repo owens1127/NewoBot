@@ -34,7 +34,7 @@ exports.discord = async (client, message, args, database) => {
         if (output === null) {
             response = "null"
         } else if (output === undefined) {
-            response = "undefined"
+            response = ""
         } else if (typeof output === 'object' && typeof output.then === 'function') {
             response = `Executed \`${input}\``;
         } else {
