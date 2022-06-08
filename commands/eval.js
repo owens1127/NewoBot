@@ -33,8 +33,7 @@ console.log(`Evaluating ${input}...`);
     try {
        eval(input)
     } catch (e) {
-        response = `Sorry ${message.author.username}, I can't do that :/`
-return;
+        response = `Sorry ${message.author.username}, I can't do that :/`;
     }
 
 output = eval(input);
