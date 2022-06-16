@@ -24,7 +24,7 @@ exports.discord = (client, message, args, database) => {
     } else {
         m = {
             content: `Here is ${person.tag}'s profile picture:`,
-            files: [person.avatarURL({
+            files: [person.displayAvatarURL({
                 format: 'png',
                 dynamic: true,
                 size: 512
