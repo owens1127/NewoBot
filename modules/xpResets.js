@@ -47,7 +47,7 @@ exports.weekly = (client, database) => {
     guilds.forEach(g => {
         const embed = new Discord.MessageEmbed({
             color: `0x2F69EC`,
-            title: `Final Weekly XP Totals for the week of ${startDate} - ${endDate}`
+            title: `${startDate} - ${endDate} XP Leaderboards`
         });
 
         util.newoSignature(embed);
@@ -94,7 +94,7 @@ exports.monthly = (client, database) => {
     client.guilds.cache.forEach(g => {
         const embed = new Discord.Embed({
             color: `0x2F69EC`,
-            title: `Final Monthly XP Totals for the month of ${month}`
+            title: `Final ${month} XP Totals`
         });
 
         util.newoSignature(embed);

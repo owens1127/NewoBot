@@ -56,7 +56,7 @@ exports.error = async (err) => {
 
     embed.addField('error', err.name);
     embed.addField('message', err.message);
-    embed.addField('stack', err.stack.substring(0, 1000));
+    embed.addField('stack', err.stack.substring(0, 800));
 
     channel.send({embeds: [embed]});
 
