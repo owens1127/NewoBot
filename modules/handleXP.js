@@ -253,6 +253,7 @@ exports.getLevelObject = (xp) => {
  */
 function sendLevelUpMsg(user, channel, level) {
     console.log(`${user.toString()} leveled up to level ${level}`);
+    if (channel.guild.id === '940175456492224512') return;
     channel.send(`Level up, ${user.toString()}! You are now level ${level}!`)
         .then(msg => logs.logAction('Sent message', {
             content: msg.content, guild: msg.guild
