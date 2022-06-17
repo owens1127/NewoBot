@@ -44,7 +44,7 @@ exports.run = (cached, clientID, secret, discord_client) => {
                         });
                         console.log('Updated Activity to Stream Ended')
                     } else {
-                        console.log('Newo is still offline');
+                        // console.log('Newo is still offline');
                     }
                 }
                 // If already posted

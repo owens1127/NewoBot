@@ -21,7 +21,7 @@ exports.text = (client, message, database) => {
             console.error(err);
         }
         if (rows[0] == undefined || rows[0] == null) {
-            return require('./handleXP.js').new(message.member, database);
+            return require('./handleXP').new(message.member, database);
         }
 
         let genXp = generateXp(15, 25);
@@ -109,19 +109,12 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
         console.log(
             `Logging start time for voice channel XP for ${oldVoiceState.member.user.tag}...`);
 
-        const time = Math.floor(new Date().getTime());
+        const time = Math.floor(new Date().getTime() / 60000);
         database.query(`UPDATE ${table}
                         SET voiceStart = '${time}'
                         WHERE id = '${newVoiceState.member.id}'`, (err) => {
             if (err) {
-                try {
-                    console.log('New user detected in Voice');
-                    require('./handleXP.js').new(oldVoiceState.member, database);
-                } catch (err2) {
-                    console.error(err);
-                    console.error(err2);
-                }
-                return;
+                throw(err);
             }
             logs.logAction('User started earning XP', {
                 user: newVoiceState.member,
@@ -139,23 +132,11 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
         database.query(`SELECT *
                         FROM ${table}
                         WHERE id = '${newVoiceState.member.id}'`, (err, data) => {
-            if (err) {
-                return console.error(err);
-            }
-            if (data[0] == undefined) {
-                 try {
-                    console.log('New user detected in Voice');
-                    require('./handleXP.js').new(oldVoiceState.member, database);
-                } catch (err2) {
-                    console.error(err2);
-                }
-                return;
-            }
-            const time = Math.floor(new Date().getTime());
-            const minutes = Math.floor((time - data[0].voiceStart) / 60000);
+            const time = Math.floor(new Date().getTime() / 60000);
+            const diff = time - data[0].voiceStart;
 
             let newXp = 0;
-            for (var i = 0; i < minutes; i++) {
+            for (var i = 0; i < diff; i++) {
                 newXp += generateXp(6, 10);
             }
 
@@ -169,15 +150,10 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
             const newLvl = require('./handleXP.js').getLevelObject(newData.xp).level;
             if (newLvl > require('./handleXP.js').getLevelObject(data[0].xp).level) {
                 let channel = util.getOutputChannel(newVoiceState.guild);
-                if (channel === null) {
-                    console.log(`${newVoiceState.member.user} leveled up to level ${newLvl}`);
-                } else {
-                    sendLevelUpMsg(newVoiceState.member.user, channel, newLvl);
-                }
+                sendLevelUpMsg(newVoiceState.member.user, channel, newLvl);
             }
 
-            console.log(
-                `${oldVoiceState.member.user.tag} earned ${newXp} xp over ${minutes} minutes`);
+            console.log(`${oldVoiceState.member.user.tag} earned ${newXp} xp over ${diff} minutes`);
             let sql = `UPDATE ${table}
                        SET xp      = ${newData.xp},
                            daily   = ${newData.daily},
@@ -185,13 +161,12 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                            monthly = ${newData.monthly}
                        WHERE id = '${newVoiceState.member.id}'`;
 
-            database.query(sql, (err) => {
+            database.query(sql, () => {
                 if (err) {
-                    return console.error(err);
+                    throw err;
                 }
                 logs.logAction('Updated XP for user', {
                     source: 'Voice XP',
-                    mins: minutes,
                     user: newVoiceState.member,
                     server: newVoiceState.guild.name,
                     xp_gained: newXp
@@ -229,7 +204,7 @@ exports.new = (member, database) => {
                 weekly: xp,
                 monthly: xp,
                 lastMessage: newTime,
-                voiceStart: new Date().getTime()
+                voiceStart: new Date().getTime() / 60000
             };
 
             const sql = `INSERT INTO ${table} (id, xp, daily, weekly, monthly, lastMessage, voiceStart)
@@ -245,7 +220,7 @@ exports.new = (member, database) => {
                 logs.logAction('User added to Database', {
                     user: member, server: member.guild.name
                 });
-                console.log(`User ${member.user.tag} added to Database`);
+                console.log(`User ${member.tag} added to Database`);
             });
         }
     });
@@ -277,10 +252,7 @@ exports.getLevelObject = (xp) => {
  * @param {number} level the new level of the user
  */
 function sendLevelUpMsg(user, channel, level) {
-    console.log(`${user} leveled up to level ${level}`);
-
-    if (util.getOutputChannel(channel.guild) === null) return;
-
+    console.log(`${user.toString()} leveled up to level ${level}`);
     channel.send(`Level up, ${user.toString()}! You are now level ${level}!`)
         .then(msg => logs.logAction('Sent message', {
             content: msg.content, guild: msg.guild
@@ -335,9 +307,6 @@ function getVoiceXPState(oldState, newState) {
         if (oldState.channelID === 'null') {
             // start (joined vc from a nothing)
             return 1;
-        } else if (newState.channelID === 'null') {
-            // end (left vc to nothing)
-            return 2;
         } else {
             return 0;
         }

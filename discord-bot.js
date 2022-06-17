@@ -75,7 +75,7 @@ exports.run = (env, db) => {
         });
 
         // Create a new entry in the database for the new user
-        ('./modules/handleXP.js').new(member, db);
+        require('./modules/handleXP.js').new(member, db);
 
         const outputChannel = util.getOutputChannel(member.guild);
         outputChannel.send(`Welcome ${member} to ${member.guild.name}!`)
