@@ -53,18 +53,19 @@ exports.newoSignature = (embed) => {
  * @returns {Discord.TextChannel | null} the resolved text channel or null if no channel
  */
 exports.getOutputChannel = (guild) => {
+    let out;
     config.discord.guilds.forEach(serverConfig => {
             if (serverConfig.id === guild.id) {
-                if (serverConfig.genChannel === null) return null;
+                if (serverConfig.genChannel !== null)
                 guild.channels.cache.forEach(channel => {
                     if (channel.id === serverConfig.genChannel) {
-                        return channel;
+                        out = channel;
                     }
                 });
             }
         }
     );
-    return null;
+    return out || null;
 }
 /**
  * Sends a leaderboard in discord

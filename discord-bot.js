@@ -78,12 +78,14 @@ exports.run = (env, db) => {
         require('./modules/handleXP.js').new(member, db);
 
         const outputChannel = util.getOutputChannel(member.guild);
-        outputChannel.send(`Welcome ${member} to ${member.guild.name}!`)
-            .then(msg => logs.logAction('Sent message', {
-                content: msg.content,
-                guild: msg.guild
-            }))
-            .catch(console.error);
+        if (outputChannel !== null) {
+            outputChannel.send(`Welcome ${member} to ${member.guild.name}!`)
+                .then(msg => logs.logAction('Sent message', {
+                    content: msg.content,
+                    guild: msg.guild
+                }))
+                .catch(console.error);
+        }
 
         if (util.isPremiumGuild(member.guild)) {
             require('./modules/roleColor.js').new(member);
