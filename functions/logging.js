@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const util = require('./util');
 const logs = require('./logging');
+const config = require('../config.json');
 /*
 * This channel is assigned a value when the bot runs
 */
@@ -46,7 +47,7 @@ exports.logAction = (action, data) => {
  * Logs an error in the logs channel in Newo's Test Server
  * @param {Error} err the error emitted
  */
-exports.error = async (err) => {
+exports.error = (err) => {
     console.log(err);
 
     const embed = new Discord.MessageEmbed();
@@ -58,7 +59,10 @@ exports.error = async (err) => {
     embed.addField('message', err.message);
     embed.addField('stack', err.stack.substring(0, 800));
 
-    channel.send({embeds: [embed]});
+    channel.send({
+        content: `\<@${config.discord.ownerID}\>`,
+        embeds: [embed]
+    });
 
     setTimeout(() => {
         process.exit(1);
