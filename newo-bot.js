@@ -2,7 +2,7 @@ const env = process.env;
 const mysql = require('mysql');
 const discord = require('./discord-bot.js');
 const twitch = require('./twitch-bot.js')
-
+const logs = require('./functions/logging');
 // START TIME
 console.log(`Started ${new Date()}`);
 
@@ -45,3 +45,8 @@ function connectToDatabase() {
     }
     return database;
 }
+
+// handles errors
+process.on('uncaughtException', err => {
+    logs.error(err);
+});

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const util = require('./util');
+const logs = require('./logging');
 /*
 * This channel is assigned a value when the bot runs
 */
@@ -39,4 +40,27 @@ exports.logAction = (action, data) => {
         console.log('Error sending log ' + action + data);
     }
 
+}
+
+/**
+ * Logs an error in the logs channel in Newo's Test Server
+ * @param {Error} err the error emitted
+ */
+exports.error = async (err) => {
+    console.log(err);
+
+    const embed = new Discord.MessageEmbed();
+    util.newoSignature(embed);
+    embed.setTitle('App Crashed');
+    embed.setColor('#ff4747');
+
+    embed.addField('error', err.name);
+    embed.addField('message', err.message);
+    embed.addField('stack', err.stack.substring(0, 1000));
+
+    channel.send({embeds: [embed]});
+
+    setTimeout(() => {
+        process.exit(1);
+    }, 2000);
 }
