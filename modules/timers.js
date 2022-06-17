@@ -54,18 +54,7 @@ exports.discord = (env, client, database) => {
         }
         if (dayOfWeek === 5 && hour === 10) {
             // FRIDAY MORNING
-            client.guilds.cache.forEach(g => {
-                let channel = util.getOutputChannel(g);
-                channel.send({
-                    files: ['https://cdn.discordapp.com/attachments/591094670789050375/893598265549918248/PrHZc7VO8DLyoTvC.mp4']
-                }).then(() => {
-                    console.log('Sent Friday sailor message to ' + g.name);
-                })
-                    .catch(console.error);
-            });
-            logs.logAction('Sent Friday Messages', {
-                serverCount: client.guilds.cache.size
-            })
+            sendFridayMessage(client);
         }
 
     }, 60 * 1000); // (1 minute)
@@ -114,5 +103,26 @@ exports.discord = (env, client, database) => {
     }, 15 * 60000); // (15 minutes)
 
 };
+
+/**
+ * Send a morning message every Friday.
+ * @param client
+ */
+function sendFridayMessage(client) {
+    client.guilds.cache.forEach(g => {
+        if (util.isPremiumGuild(g)) {
+            let channel = util.getOutputChannel(g);
+            channel.send({
+                files: ['https://cdn.discordapp.com/attachments/591094670789050375/893598265549918248/PrHZc7VO8DLyoTvC.mp4']
+            }).then(() => {
+                console.log('Sent Friday sailor message to ' + g.name);
+            })
+                .catch(console.error);
+        }
+    });
+    logs.logAction('Sent Friday Messages', {
+        serverCount: client.guilds.cache.size
+    })
+}
 
 

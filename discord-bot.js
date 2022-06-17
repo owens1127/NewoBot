@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 const logs = require('./functions/logging');
 const util = require('./functions/util')
+const {isPremiumGuild} = require('./functions/util');
 
 /**
  * Runs the discord bot
@@ -30,8 +31,7 @@ exports.run = (env, db) => {
 
         discord_client.user.setActivity('Just restarted', {type: 'PLAYING'});
         logs.logAction('Set Activity', {
-            activity: 'Just restarted',
-            type: 'PLAYING'
+            activity: 'Just restarted', type: 'PLAYING'
         });
 
         // TIMERS
@@ -70,24 +70,24 @@ exports.run = (env, db) => {
             return;
         }
         logs.logAction('User Join', {
-            user: member.user,
-            guild: member.guild
+            user: member.user, guild: member.guild
         });
 
         // Create a new entry in the database for the new user
         require('./modules/handleXP.js').new(member, db);
 
-        const outputChannel = util.getOutputChannel(member.guild);
-        if (outputChannel !== null) {
+        if (isPremiumGuild(member.guild)) {
+
+            const outputChannel = util.getOutputChannel(member.guild);
+            if (!outputChannel) {
+                return console.log('Could not send good morning message to ' + member.guild.name);
+            }
             outputChannel.send(`Welcome ${member} to ${member.guild.name}!`)
                 .then(msg => logs.logAction('Sent message', {
-                    content: msg.content,
-                    guild: msg.guild
+                    content: msg.content, guild: msg.guild
                 }))
                 .catch(console.error);
-        }
 
-        if (util.isPremiumGuild(member.guild)) {
             require('./modules/roleColor.js').new(member);
         }
     });
@@ -95,12 +95,11 @@ exports.run = (env, db) => {
 // USER LEAVES SERVER
     discord_client.on('guildMemberRemove', member => {
         logs.logAction('User Leave', {
-            user: member,
-            guild: member.guild
+            user: member, guild: member.guild
         });
 
         if (util.isPremiumGuild(member.guild)) {
-            require('modules/roleColor.js').delete(discord_client, member, member.guild);
+            require('./modules/roleColor.js').userLeave(discord_client, member, member.guild);
         }
 
     });

@@ -12,11 +12,12 @@ exports.run = (client) => {
     console.log(`Sending good morning messages!`);
 
     client.guilds.cache.forEach(g => {
+        if (!util.isPremiumGuild(g)) return;
+
         let channel = util.getOutputChannel(g);
-        if (channel === null) {
+        if (!channel) {
             return console.log(
-                'Could not send good morning message to ' + g.name + ' because the channel'
-                + 'was null');
+                'Could not send good morning message to ' + g.name);
         }
 
         const greeting = morning_messages.goodMorningGreetings[Math.floor(
