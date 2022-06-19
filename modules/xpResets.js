@@ -92,7 +92,7 @@ exports.monthly = (client, database) => {
     const month = util.months[date.getMonth()];
 
     client.guilds.cache.forEach(g => {
-        const embed = new Discord.Embed({
+        const embed = new Discord.MessageEmbed({
             color: `0x2F69EC`,
             title: `Final ${month} XP Totals`
         });
@@ -109,14 +109,13 @@ exports.monthly = (client, database) => {
                 console.error(err);
             }
             let winner = util.sendLeaderboard('MONTHLY', embed, channel, data);
-            channel.send(`Congratulations, ${channel.guild.members.cache.get(winner.id)},
-            you topped the leaderboard this month with ${winner.monthly} xp!`)
+
+            channel.send(`Congratulations, ${channel.guild.members.cache.get(winner.id)}, you topped the leaderboard this month with ${winner.monthly} xp!`)
                 .then(msg => {
                     logs.logAction('Sent message', {
                         content: msg.content,
                         guild: msg.guild
                     });
-                    console.log('Send message ' + msg);
                 })
                 .catch(console.error);
         });

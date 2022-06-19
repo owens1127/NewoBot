@@ -56,12 +56,13 @@ exports.getOutputChannel = (guild) => {
     let out;
     config.discord.guilds.forEach(serverConfig => {
             if (serverConfig.id === guild.id) {
-                if (serverConfig.genChannel !== null)
-                guild.channels.cache.forEach(channel => {
-                    if (channel.id === serverConfig.genChannel) {
-                        out = channel;
-                    }
-                });
+                if (serverConfig.genChannel !== null) {
+                    guild.channels.cache.forEach(channel => {
+                        if (channel.id === serverConfig.genChannel) {
+                            out = channel;
+                        }
+                    });
+                }
             }
         }
     );
@@ -70,13 +71,14 @@ exports.getOutputChannel = (guild) => {
 /**
  * Sends a leaderboard in discord
  * @param {'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ALL TIME'} style the type of leaderboard
- * @param {Discord.MessageEmbed} embed
- * @param channel
- * @param data
+ * @param {Discord.MessageEmbed} embed the embed being created
+ * @param {Discord.TextChannel} channel the channel to send the message in
+ * @param {[{id: string, monthly: number, weekly: number, daily: number}]} data the data from
+ * the database
  * @returns {{id: string, monthly: number, weekly: number, daily: number}} the person with the
  *     highest xp
  */
-exports.sendLeaderboard = async (style, embed, channel, data) => {
+exports.sendLeaderboard = (style, embed, channel, data) => {
     console.log(`Generating a ${style} leaderboard embed in server ${channel.guild.name}...`);
 
     let category = style.toLowerCase();
@@ -86,14 +88,15 @@ exports.sendLeaderboard = async (style, embed, channel, data) => {
     let sorted = data.sort((a, b) => (a[category] > b[category] ? -1 : 1))
         .filter(obj => (obj[category] !== 0));
 
-    await channel.guild.members.fetch().then(membersCache => {
+    channel.guild.members.fetch().then(membersCache => {
         for (var i = 0; i < sorted.length && i < 10; i++) {
             if (membersCache.get(sorted[i].id) !== undefined) {
                 let member = membersCache.get(sorted[i].id);
                 embed.addField(`[${i + 1}]`,
                     member.toString()
                     + '\n\u200b' + `XP: ${sorted[i][category]}`
-                    + '\n\u200b' + `Level: ${xpFunctions.getLevelObject(sorted[i][category]).level}`,
+                    + '\n\u200b' + `Level: ${xpFunctions.getLevelObject(
+                        sorted[i][category]).level}`,
                     true);
             } else {
                 embed.addField(`[${i + 1}]`,
@@ -101,20 +104,19 @@ exports.sendLeaderboard = async (style, embed, channel, data) => {
                     true);
             }
         }
+        channel.send({embeds: [embed]})
+            .then(() => {
+                console.log(`Sent a ${style} Leaderboard Embed to server ${channel.guild.name}`);
+                logs.logAction('Sent a Leaderboard Embed', {
+                    kind: style,
+                    server: channel.guild
+                });
+            })
+            .catch(console.error);
     })
         .catch(console.error);
-
-    channel.send({embeds: [embed]})
-        .then(() => {
-            console.log(`Sent a ${style} Leaderboard Embed to server ${channel.guild.name}`);
-            logs.logAction('Sent a Leaderboard Embed', {
-                kind: style,
-                server: channel.guild
-            });
-        })
-        .catch(console.error);
-
     return sorted[0];
+
 }
 
 exports.months = ['January', 'February', 'March', 'April', 'May', 'June',
