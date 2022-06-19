@@ -1,5 +1,4 @@
 const {Client, Intents} = require('discord.js');
-const Connection = require('mysql/lib/Connection');
 const Discord = require('discord.js');
 const Connection = require('mysql/lib/Connection');
 const config = require('./config.json');
