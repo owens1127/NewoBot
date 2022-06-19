@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const config = require('../config.json');
 const fs = require('fs');
 const logs = require('../functions/logging');
@@ -7,7 +8,7 @@ const logs = require('../functions/logging');
  * Runs a discord command
  * @param {Discord.Client} client the discord connection
  * @param {Discord.Message} message the message the user sent
- * @param {Connection} database the database connection
+ * @param {Connection.prototype} database the database connection
  */
 exports.discord = (client, message, database) => {
 
@@ -51,7 +52,7 @@ exports.discord = (client, message, database) => {
  * @param {twitch.channel} channel the channel where the command was written
  * @param {twitch.userstate} userstate the user initiating the command
  * @param {twitch.message} message the message attached to the command
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.twitch = (client, channel, userstate, message, database) => {
     const args = getArgs(message);

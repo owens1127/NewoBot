@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const config = require('../config.json');
 const logs = require('../functions/logging');
 const util = require('../functions/util');
@@ -8,7 +9,7 @@ const util = require('../functions/util');
  * @param {Discord.Client} client connection to discord
  * @param {Discord.Message} message the message the command is processed from
  * @param {String[]} args the arguments of the command
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
     const table = `xp_${message.guild.id}`;

@@ -1,5 +1,6 @@
 const config = require('../config.json');
 const Discord = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const Twitch = require('tmi.js');
 const mysql = require('mysql');
 const logs = require('../functions/logging');
@@ -9,7 +10,7 @@ const logs = require('../functions/logging');
  * @param {Discord.Client} client connection to discord
  * @param {Discord.Message} message the message the command is processed from
  * @param {String[]} args the arguments of the command
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = async (client, message, args, database) => {
     if (message.author.id !== config.discord.ownerID) {

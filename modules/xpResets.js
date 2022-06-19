@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const logs = require('../functions/logging');
 const util = require('../functions/util');
 
 /**
  * Resets the daily xp for everyone
  * @param {Discord.Client} client the connection to discord
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.daily = (client, database) => {
     console.log(`Resetting DAILY XP totals...`)
@@ -29,7 +30,7 @@ exports.daily = (client, database) => {
 /**
  * Resets the weekly xp for everyone
  * @param {Discord.Client} client the connection to discord
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.weekly = (client, database) => {
     console.log(`Resetting WEEKLY XP totals...`)
@@ -82,7 +83,7 @@ exports.weekly = (client, database) => {
 /**
  * Resets the monthly xp for everyone
  * @param {Discord.Client} client the connection to discord
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.monthly = (client, database) => {
     console.log(`Resetting MONTHLY XP totals...`);

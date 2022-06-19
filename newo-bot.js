@@ -15,7 +15,7 @@ twitch.run(env, database);
 
 /**
  * Connects to the database.
- * @returns {Connection} the connection to the database
+ * @returns {Connection.prototype} the connection to the database
  */
 function connectToDatabase() {
     const url = env.CLEARDB_DATABASE_URL;

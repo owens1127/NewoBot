@@ -1,5 +1,6 @@
 const config = require('../config.json');
 const Discord = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const logs = require('../functions/logging');
 
 /**
@@ -7,7 +8,7 @@ const logs = require('../functions/logging');
  * @param {Discord.Client} client connection to discord
  * @param {Discord.Message} message the message the command is processed from
  * @param {String[]} args the arguments of the command
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args) => {
     message.channel.send('Ping?')
@@ -33,7 +34,7 @@ exports.discord = (client, message, args) => {
 
 /**
  * Handles a Twitch command
- * @param {Discord.Client} client connection to discord
+ * @param {Client} client connection to discord
  * @param channel the twitch Channel of origin
  * @param userstate the userstate of origin
  * @param args the arguments of the command

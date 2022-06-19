@@ -1,13 +1,15 @@
 const Discord = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const config = require('../config.json');
 const logs = require('../functions/logging');
 const util = require('../functions/util');
+const mysql = require('mysql');
 
 /**
  * Evaluates XP earned per message
  * @param {Discord.Client} client the connection to discord
  * @param {Discord.Message} message the message sent
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.text = (client, message, database) => {
 
@@ -80,7 +82,7 @@ exports.text = (client, message, database) => {
  * @param {Discord.Client} client the connection to discord
  * @param {Discord.VoiceState} oldVoiceState the old voice state of the suer
  * @param {Discord.VoiceState} newVoiceState the new voice state of the user
- * @param {Connection} database the connection to the database
+ * @param {Connection.prototype} database the connection to the database
  */
 exports.voice = (client, oldVoiceState, newVoiceState, database) => {
     const guild = oldVoiceState.guild;
@@ -182,7 +184,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
 /**
  * Initializes a new member into the database
  * @param {Discord.GuildMember} member the user to enter
- * @param {Connection} database the database connection
+ * @param {Connection.prototype} database the database connection
  */
 exports.new = (member, database) => {
 
@@ -293,10 +295,6 @@ function getVoiceXPState(oldState, newState) {
     } else {
         toAfk = oldState.wasInAFK ? 'left afk' : 'joined afk'
     }
-
-    console.log(sameChannel)
-    console.log(deafened)
-    console.log(toAfk)
 
     if (toAfk === 'still afk') {
         // do nothing

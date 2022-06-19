@@ -1,5 +1,7 @@
 const {Client, Intents} = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const Discord = require('discord.js');
+const Connection = require('mysql/lib/Connection');
 const config = require('./config.json');
 const logs = require('./functions/logging');
 const util = require('./functions/util')
@@ -8,7 +10,7 @@ const {isPremiumGuild} = require('./functions/util');
 /**
  * Runs the discord bot
  * @param {Object} env the environment variables
- * @param {Connection} db the connection to the database
+ * @param {Connection.prototype} db the connection to the database
  */
 exports.run = (env, db) => {
     const discord_client = new Client({
