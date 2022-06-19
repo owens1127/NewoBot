@@ -228,10 +228,9 @@ exports.new = (member, database) => {
 };
 
 /**
- * Calculates the level of the user
- * @param xp the current xp of the user
- * @returns {{level: number, progress: number}} the data about the level and progress towards
- *     the next
+ * Calculates the level data for a user
+ * @param {number} xp the xp the user has
+ * @returns {{level: number, progress: number}}
  */
 exports.getLevelObject = (xp) => {
     var recurseXp = xp;
@@ -295,6 +294,10 @@ function getVoiceXPState(oldState, newState) {
         toAfk = oldState.wasInAFK ? 'left afk' : 'joined afk'
     }
 
+    console.log(sameChannel)
+    console.log(deafened)
+    console.log(toAfk)
+
     if (toAfk === 'still afk') {
         // do nothing
         return 0;
@@ -309,6 +312,9 @@ function getVoiceXPState(oldState, newState) {
         if (oldState.channelID === 'null') {
             // start (joined vc from a nothing)
             return 1;
+        } else if (newState.channelID === 'null') {
+            // stop (left a vc like normal)
+            return 2;
         } else {
             return 0;
         }
