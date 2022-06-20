@@ -22,7 +22,7 @@ exports.text = (client, message, database) => {
         if (err) {
             console.error(err);
         }
-        if (rows[0] == undefined || rows[0] == null) {
+        if (rows[0] === undefined || rows[0] === null) {
             return require('./handleXP').new(message.member, database);
         }
 
@@ -89,14 +89,14 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
     const table = `xp_${guild.id}`;
 
     const oldState = {
-        channelID: (oldVoiceState.channel !== null) ? oldVoiceState.channel.id : 'null',
+        channelID: (oldVoiceState.channel !== null) ? oldVoiceState.channel.id : null,
         wasDeafened: oldVoiceState.deaf,
         wasInAFK: (oldVoiceState.channel !== null && guild.afkChannel !== null)
             ? (oldVoiceState.channel.id === guild.afkChannel.id) : false
     }
 
     const newState = {
-        channelID: (newVoiceState.channel !== null) ? newVoiceState.channel.id : 'null',
+        channelID: (newVoiceState.channel !== null) ? newVoiceState.channel.id : null,
         isDeafened: newVoiceState.deaf,
         inAFK: (newVoiceState.channel !== null && guild.afkChannel !== null)
             ? (newVoiceState.channel.id === guild.afkChannel.id) : false
@@ -104,7 +104,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
 
     let state = getVoiceXPState(oldState, newState);
 
-    if (state == 0) {
+    if (state === 0) {
         return;
     } else if (state === 1) {
 
@@ -134,6 +134,12 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
         database.query(`SELECT *
                         FROM ${table}
                         WHERE id = '${newVoiceState.member.id}'`, (err, data) => {
+            if (data[0] === undefined) {
+                throw new TypeError('data undefined for query in ' + table);
+            }
+            if (err) {
+                throw err;
+            }
             const time = Math.floor(new Date().getTime() / 60000);
             const diff = time - data[0].voiceStart;
 
@@ -164,9 +170,6 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                        WHERE id = '${newVoiceState.member.id}'`;
 
             database.query(sql, () => {
-                if (err) {
-                    throw err;
-                }
                 logs.logAction('Updated XP for user', {
                     source: 'Voice XP',
                     user: newVoiceState.member,
@@ -255,7 +258,9 @@ exports.getLevelObject = (xp) => {
 function sendLevelUpMsg(user, channel, level) {
     console.log(`${user.toString()} leveled up to level ${level}`);
     // disable dash
-    if (channel.guild.id === '940175456492224512') return;
+    if (channel.guild.id === '940175456492224512') {
+        return;
+    }
     channel.send(`Level up, ${user.toString()}! You are now level ${level}!`)
         .then(msg => logs.logAction('Sent message', {
             content: msg.content, guild: msg.guild
@@ -275,8 +280,8 @@ function generateXp(min, max) {
 
 /**
  *
- * @param {{channelID: string, wasDeafened: boolean | null, wasInAFK: boolean}} oldState
- * @param {{channelID: string, isDeafened: boolean, inAFK: boolean}} newState
+ * @param {{channelID: string | null, wasDeafened: boolean | null, wasInAFK: boolean}} oldState
+ * @param {{channelID: string | null, isDeafened: boolean, inAFK: boolean}} newState
  * @returns {number} the outcome of the stateUpdate 0 if nothing, 1 if open, 2 if close
  */
 function getVoiceXPState(oldState, newState) {
@@ -296,6 +301,11 @@ function getVoiceXPState(oldState, newState) {
         toAfk = oldState.wasInAFK ? 'left afk' : 'joined afk'
     }
 
+    console.log("oldState: ");
+    console.log(oldState);
+    console.log("newState: ");
+    console.log(newState);
+
     if (toAfk === 'still afk') {
         // do nothing
         return 0;
@@ -307,10 +317,10 @@ function getVoiceXPState(oldState, newState) {
         return 0;
     } else if (!sameChannel && deafened === 'stayed listening' && toAfk === 'not afk') {
         /// depends
-        if (oldState.channelID === 'null') {
+        if (oldState.channelID === null) {
             // start (joined vc from a nothing)
             return 1;
-        } else if (newState.channelID === 'null') {
+        } else if (newState.channelID === null) {
             // stop (left a vc like normal)
             return 2;
         } else {
@@ -320,20 +330,26 @@ function getVoiceXPState(oldState, newState) {
         // start (undeafened in a public channel)
         return 1;
     } else if (!sameChannel && deafened === 'undeafened' && toAfk === 'not afk') {
-        // start (undeafened while switching channels)
+        // left vc while deafened then joined while undeafened
         return 1;
     } else if (sameChannel && deafened === 'deafened' && toAfk === 'not afk') {
         // end (deafened in the same channel)
         return 2;
     } else if (!sameChannel && deafened === 'deafened' && toAfk === 'not afk') {
-        // end (deafened while switching channels)
-        return 2;
+
+        if (oldState.channelID === null) {
+            // left vc while undeafened then joined while deafened
+            return 0;
+        } else {
+            // end (deafened while switching channels)
+            return 2;
+        }
     } else if (sameChannel && deafened === 'stayed listening' && toAfk === 'left afk') {
         // not possible (can't leave afk and be in the same channel)
         return 0;
     } else if (!sameChannel && deafened === 'stayed listening' && toAfk === 'left afk') {
         // depends
-        if (newState.channelID !== 'null') {
+        if (newState.channelID !== null) {
             // start (left afk to a new channel)
             return 1;
         } else {
@@ -344,7 +360,7 @@ function getVoiceXPState(oldState, newState) {
         return 0;
     } else if (!sameChannel && deafened === 'undeafened' && toAfk === 'left afk') {
         // depends
-        if (newState.channelID !== 'null') {
+        if (newState.channelID !== null) {
             // start (undeafened while leaving afk to a new channel)
             return 1;
         } else {
@@ -361,7 +377,7 @@ function getVoiceXPState(oldState, newState) {
         return 0;
     } else if (!sameChannel && deafened === 'stayed listening' && toAfk === 'joined afk') {
         // depends
-        if (oldState.channelID !== 'null') {
+        if (oldState.channelID !== null) {
             // stop (joined afk from a normal channel)
             return 2;
         } else {
@@ -375,10 +391,11 @@ function getVoiceXPState(oldState, newState) {
         return 0;
     } else if (!sameChannel && deafened === 'deafened' && toAfk === 'joined afk') {
         // depends
-        if (oldState.channelID !== 'null') {
+        if (oldState.channelID !== null) {
             // stop (joined afk from a normal channel)
             return 2;
         } else {
+            // joined afk while deafened
             return 0;
         }
     } else {
