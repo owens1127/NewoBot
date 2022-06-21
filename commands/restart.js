@@ -9,19 +9,19 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-  if (message.author.id !== config.discord.ownerID) {
-    return message.channel.send(
-        'You do not have permission to execute this command.')
-        .then(msg => {
-          logs.logAction('Sent Message', {
-            content: msg.content, guild: msg.guild
-          })
-          console.log(`Sent message: ${message.content}`)
-        })
-        .catch(console.error);
-  }
+    if (message.author.id !== config.discord.ownerID) {
+        return message.channel.send(
+            'You do not have permission to execute this command.')
+            .then(msg => {
+                logs.logAction('Sent Message', {
+                    content: msg.content, guild: msg.guild
+                })
+                console.log(`Sent message: ${message.content}`)
+            })
+            .catch(console.error);
+    }
 
-    require(`modules/restart`).message(message);
+    require('../modules/restart').message(message, process.env.HEROKU_TOKEN);
 };
 
 /**

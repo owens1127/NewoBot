@@ -35,5 +35,5 @@ function genMessage() {
 
 exports.help = {
     description: 'Flip a coin.',
-    usage: `${config.prefix}flip`
+    usage: `${config.discord.prefix}flip`
 };
