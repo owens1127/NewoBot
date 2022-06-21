@@ -46,7 +46,7 @@ exports.discord = (client, message, args, database) => {
 
 /**
  * Handles a Twitch command
- * @param {Discord.Client} client connection to discord
+ * @param {Twitch.client.prototype} client connection to twitch
  * @param channel the twitch Channel of origin
  * @param userstate the userstate of origin
  * @param args the arguments of the command

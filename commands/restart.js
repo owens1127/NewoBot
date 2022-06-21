@@ -24,6 +24,14 @@ exports.discord = (client, message, args, database) => {
     require(`modules/restart`).message(message);
 };
 
+/**
+ * Handles a Twitch command
+ * @param {Twitch.client.prototype} client connection to twitch
+ * @param channel the twitch Channel of origin
+ * @param userstate the userstate of origin
+ * @param args the arguments of the command
+ * @param database the connection to the database
+ */
 exports.twitch = (client, channel, userstate, args, database) => {
     client.say(channel, `@${userstate.username}, that is a discord only command.`)
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
