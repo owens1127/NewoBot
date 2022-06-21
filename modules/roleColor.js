@@ -90,18 +90,13 @@ exports.new = (member) => {
 /**
  * Changes the color of a user
  * @param {Discord.GuildMember} member the user whose role is changed
- * @param {Discord.ColorResolvable} color the color to change the role to
+ * @param {Discord.ColorResolvable | undefined} color the color to change the role to
  */
 exports.change = (member, color) => {
     let role = member.guild.roles.cache.find(role => role.name === member.id);
 
-    if (color === undefined) {
-        return console.log(`The color was undefined when attempting to 
-        change ${member.user.username}'s role color`);
-    }
-
     role.edit({
-        color: color, permissions: config.discord.defaultRolePerms
+        color: color
     }, '!color command')
         .then(updated => {
             logs.logAction('Edited Role Color', {
@@ -109,8 +104,10 @@ exports.change = (member, color) => {
             });
             console.log(`Edited role color for ${member.user.tag} to ${updated.color}`)
         })
-        .catch(console.error);
-};
+        .catch(err => {
+            console.log(err)
+        });
+}
 
 /**
  * Creates a special for the user
@@ -125,7 +122,6 @@ function createRole(member, color, reason) {
         color: color,
         hoist: false,
         mentionable: false,
-        permissions: config.discord.defaultRolePerms,
         reason: reason
     })
         .then(r => {
