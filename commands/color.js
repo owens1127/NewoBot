@@ -14,7 +14,7 @@ const DiscordUtil = require('discord.js/src/util/Util')
  */
 exports.discord = (client, message, args, database) => {
 
-    if (util.isPremiumGuild(message.guild)) {
+    if (!util.isPremiumGuild(message.guild)) {
         return message.channel.send(
             'This command is only available in select servers')
             .then(msg => {
