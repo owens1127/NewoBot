@@ -119,6 +119,30 @@ exports.sendLeaderboard = (style, embed, channel, data) => {
 
 }
 
+/**
+ * DMs a user a message and handles failures
+ * @param {Discord.Message} message the message the bot is responding to
+ * @param {Discord.MessageOptions} msgOptions the content of the message
+ */
+exports.dmUser = (message, msgOptions) => {
+    message.author.send(msgOptions)
+        .then(msg => console.log(
+            `Private Messaged ${message.author.tag} ${msg.content}`))
+        .catch(() => {
+            console.log(`Failed to Private Message ${message.author.tag}`);
+            console.log(`Attempting to Reply instead...`);
+            message.channel.send(msgOptions)
+                .then(msg => {
+                    console.log(`Sent Message: ` + msg.embeds);
+                    logs.logAction('Sent Embed', {
+                        channel: msg.channel.name,
+                        embed: '!help embed'
+                    });
+                })
+                .catch(console.error);
+        });
+}
+
 exports.months = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 

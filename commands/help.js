@@ -42,7 +42,7 @@ exports.discord = (client, message, args, database) => {
             const msgOptions = {
                 embeds: [embed]
             }
-            dmUser(message, msgOptions)
+            util.dmUser(message, msgOptions)
 
         } else {
             message.channel.send(`\`${cmdNameLower}\` is not a valid command`)
@@ -78,7 +78,7 @@ exports.discord = (client, message, args, database) => {
                 util.newoSignature(embeds[i]);
             }
             console.log(`Help embeds created`);
-            dmUser(message, {embeds: embeds});
+            util.dmUser(message, {embeds: embeds});
         });
     }
 
@@ -97,30 +97,6 @@ exports.twitch = (client, channel, userstate, args, database) => {
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
         .catch(console.error);
 };
-
-/**
- * DMs a user a message and handles failures
- * @param {Discord.Message} message the message the bot is responding to
- * @param {Discord.MessageOptions} msgOptions the content of the message
- */
-function dmUser(message, msgOptions) {
-    message.author.send(msgOptions)
-        .then(() => console.log(
-            `Private Messaged ${message.author.tag} response to !help`))
-        .catch(() => {
-            console.log(`Failed to Private Message ${message.author.tag}`);
-            console.log(`Attempting to Reply instead...`);
-            message.channel.send(msgOptions)
-                .then(msg => {
-                    console.log(`Sent Message: ` + msg.embeds);
-                    logs.logAction('Sent Embed', {
-                        channel: msg.channel.name,
-                        embed: '!help embed'
-                    });
-                })
-                .catch(console.error);
-        });
-}
 
 exports.help = {
     description: 'This command.',
