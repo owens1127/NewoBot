@@ -9,13 +9,14 @@ const xpFunctions = require('../modules/handleXP');
  * @returns true if the guild is special, false if not
  */
 exports.isPremiumGuild = (guild) => {
+    let foo = false;
     config.discord.guilds.forEach(g => {
             if (g.id === guild.id) {
-                return g.premium;
+                foo = g.premium;
             }
         }
     );
-    return false;
+    return foo;
 }
 
 /**
