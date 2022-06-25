@@ -16,7 +16,7 @@ class EnhancedDestiny2API extends Destiny2API {
         this.options.method = 'POST';
         if (!bungieName.includes('#')) {
             return new Promise((resolve, reject) => {
-                reject(new TypeError('The bungieName was not formatted correctly: Name#0000)'));
+                reject(new TypeError('The Bungie Name was not formatted correctly: (Name#0000)'));
             });
         }
         const displayName = bungieName.split('#');

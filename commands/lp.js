@@ -42,18 +42,20 @@ exports.discord = (client, message, args, database) => {
                     .catch(console.error);
             }
             const id = res.Response[0].membershipId;
+            const type = res.Response[0].membershipType;
             // get the profile
-            destiny.getProfile(destinyMembershipType.Steam, id, [100])
+            destiny.getProfile(type, id, [100])
                 .then(r => {
                     // send embed
                     const embed = new Discord.MessageEmbed();
                     embed.setTitle(
-                        r.Response.profile.data.userInfo.displayName + ' Last Played Destiny 2');
+                        r.Response.profile.data.userInfo.bungieGlobalDisplayName
+                        + ' Last Played Destiny 2');
                     embed.setTimestamp(new Date(r.Response.profile.data.dateLastPlayed));
                     // send message
                     message.channel.send({embeds: [embed]}).then(msg => {
                         logs.logAction('Sent Message', {
-                            content: "Last Played Destiny 2 embed", guild: msg.guild
+                            content: 'Last Played Destiny 2 embed', guild: msg.guild
                         })
                         console.log(`Sent message: Last Played Destiny 2 embed`)
                     })
@@ -61,7 +63,15 @@ exports.discord = (client, message, args, database) => {
                 })
                 .catch(console.error);
         })
-        .catch(console.error);
+        .catch(e => {
+            message.channel.send(e.message).then(msg => {
+                logs.logAction('Sent Message', {
+                    content: msg.content, guild: msg.guild
+                })
+                console.log(`Sent message: ${msg.content}`)
+            })
+                .catch(console.error);
+        });
 
 };
 
