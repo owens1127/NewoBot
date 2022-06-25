@@ -5,7 +5,6 @@ const Twitch = require('tmi.js');
 const mysql = require('mysql');
 const logs = require('../functions/logging');
 const Destiny = require('../destiny-api/destiny-api');
-const env = require('../local/vars.json');
 const {destinyMembershipType} = require('node-destiny-2/lib/destiny-types');
 
 /**
@@ -17,10 +16,10 @@ const {destinyMembershipType} = require('node-destiny-2/lib/destiny-types');
  */
 exports.discord = (client, message, args, database) => {
     const destiny = new Destiny({
-        key: env.BUNGIE_API_KEY,
+        key: process.env.BUNGIE_API_KEY,
         oauthConfig: {
-            id: env.BUNGIE_CLIENT_ID,
-            secret: env.BUNGIE_SECRET
+            id: process.env.BUNGIE_CLIENT_ID,
+            secret: process.env.BUNGIE_SECRET
         }
     });
 
