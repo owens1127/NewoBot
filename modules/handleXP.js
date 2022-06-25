@@ -135,7 +135,9 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                         FROM ${table}
                         WHERE id = '${newVoiceState.member.id}'`, (err, data) => {
             if (data[0] === undefined) {
-                throw new TypeError('data undefined for query in ' + table);
+                throw new TypeError(`data undefined for query: SELECT *
+                        FROM ${table}
+                        WHERE id = '${newVoiceState.member.id}'`);
             }
             if (err) {
                 throw err;
