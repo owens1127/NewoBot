@@ -54,9 +54,9 @@ exports.discord = (client, message, args, database) => {
                     // send message
                     message.channel.send({embeds: [embed]}).then(msg => {
                         logs.logAction('Sent Message', {
-                            content: msg.content, guild: msg.guild
+                            content: "Last Played Destiny 2 embed", guild: msg.guild
                         })
-                        console.log(`Sent message: ${msg.content}`)
+                        console.log(`Sent message: Last Played Destiny 2 embed`)
                     })
                         .catch(console.error);
                 })
