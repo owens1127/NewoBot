@@ -5,7 +5,13 @@
     "iconURL": "https://images-ext-1.discordapp.net/external/d5yqx3HJyX7Er7wFJzbiP6drM3alOTX1gWIlxK612Kg/https/cdn.discordapp.com/avatars/490586718647615497/7e49a3df56477b15cf76030121f60dea.webp",
     "logChannelID": "977806671533449236",
     "reactEmoji": "<:newologo:923665949809344512>",
-    "xpCoolDownMs": 60000,
+    "xp" : {
+      "textCoolDown": 60000,
+      "textMin": 15,
+      "textMax": 25,
+      "voiceMin": 3,
+      "voiceMax": 5
+    },
     "contentChannel": "922274153690710077",
     "guilds": [
       {

@@ -26,13 +26,13 @@ exports.text = (client, message, database) => {
             return require('./handleXP').new(message.member, database);
         }
 
-        let genXp = generateXp(15, 25);
+        let genXp = generateXp(config.discord.xp.textMin, config.discord.xp.textMax);
 
         let oldTime = rows[0].lastMessage;
         let diff = (newTime - oldTime);
 
         // If cool down over
-        if (diff >= config.discord.xpCoolDownMs) {
+        if (diff >= config.discord.xp.textCoolDown) {
             // update params
             let newData = {
                 xp: rows[0].xp + genXp,
@@ -147,7 +147,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
 
             let newXp = 0;
             for (var i = 0; i < diff; i++) {
-                newXp += generateXp(6, 10);
+                newXp += generateXp(config.discord.xp.voiceMin, config.discord.xp.voiceMax);
             }
 
             let newData = {
