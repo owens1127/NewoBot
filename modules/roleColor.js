@@ -75,6 +75,13 @@ exports.verify = (guild) => {
         let colorRole = member.roles.cache.find(r => r.name === member.id);
         if (colorRole === undefined) {
             createRole(member, `0x${Math.floor(Math.random() * 16777215).toString(16)}`, 'Verify');
+        } else {
+            colorRole.edit({
+                permissions: guild.roles.everyone.permissions
+            }, 'verify')
+                .catch(err => {
+                    console.log(err)
+                });
         }
     });
 };
@@ -122,7 +129,8 @@ function createRole(member, color, reason) {
         color: color,
         hoist: false,
         mentionable: false,
-        reason: reason
+        reason: reason,
+        permissions: member.guild.roles.everyone.permissions
     })
         .then(r => {
             logs.logAction('Created role', {
