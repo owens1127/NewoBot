@@ -134,13 +134,14 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
         database.query(`SELECT *
                         FROM ${table}
                         WHERE id = '${newVoiceState.member.id}'`, (err, data) => {
+            if (err) {
+                throw err;
+            }
             if (data[0] === undefined) {
                 throw new TypeError(`data undefined for query: SELECT *
                         FROM ${table}
-                        WHERE id = '${newVoiceState.member.id}'`);
-            }
-            if (err) {
-                throw err;
+                        WHERE id = '${newVoiceState.member.id}':\n
+                        UPDATING voice channel XP for ${newVoiceState.member.user.tag} in ${newVoiceState.guild.name}`);
             }
             const time = Math.floor(new Date().getTime() / 60000);
             const diff = time - data[0].voiceStart;
@@ -198,6 +199,10 @@ exports.new = (member, database) => {
     database.query(`SELECT *
                     FROM ${table}
                     WHERE id = '${member.id}'`, (err, userArr) => {
+
+        if (err) {
+            throw err;
+        }
 
         if (userArr.length < 1) {
 
@@ -303,9 +308,9 @@ function getVoiceXPState(oldState, newState) {
         toAfk = oldState.wasInAFK ? 'left afk' : 'joined afk'
     }
 
-    console.log("oldState: ");
+    console.log('oldState: ');
     console.log(oldState);
-    console.log("newState: ");
+    console.log('newState: ');
     console.log(newState);
 
     if (toAfk === 'still afk') {

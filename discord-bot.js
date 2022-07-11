@@ -8,16 +8,17 @@ const {isPremiumGuild} = require('./functions/util');
 
 /**
  * Runs the discord bot
- * @param {Object} env the environment variables
  * @param {Connection.prototype} db the connection to the database
  */
-exports.run = (env, db) => {
+exports.run = (db) => {
     const discord_client = new Client({
         allowedMentions: {parse: ['users', 'roles']},
         partials: ['CHANNEL'],
         intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS', 'GUILD_VOICE_STATES',
             'GUILD_PRESENCES', 'DIRECT_MESSAGES', 'DIRECT_MESSAGE_TYPING']
     });
+
+    const env = process.env;
 
     // ON DISCORD READY
     discord_client.on('ready', async () => {

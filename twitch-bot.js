@@ -1,7 +1,7 @@
 const Twitch = require('tmi.js');
 const config = require("./config.json");
 
-exports.run = (env, config, db) => {
+exports.run = (config, db) => {
 
     const twitch_client = new Twitch.client({
         connection: {
@@ -10,7 +10,7 @@ exports.run = (env, config, db) => {
         },
         identity: {
             username: 'NewoRobot',
-            password: env.TWITCH_TOKEN
+            password: process.env.TWITCH_TOKEN
         },
         channels: ['newoX']
     });
