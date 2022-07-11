@@ -21,7 +21,7 @@ exports.text = (client, message, database) => {
                     FROM ${table}
                     WHERE id = '${message.author.id}'`, (err, rows) => {
         if (err) {
-            console.error(err);
+            logs.error(err);
         }
         if (rows[0] === undefined || rows[0] === null) {
             return require('./handleXP').new(message.member, database);
@@ -323,7 +323,7 @@ function sendLevelUpMsg(user, channel, level) {
         .then(msg => logs.logAction('Sent message', {
             content: msg.content, guild: msg.guild
         }))
-        .catch(console.error);
+        .catch(logs.error);
 }
 
 /**

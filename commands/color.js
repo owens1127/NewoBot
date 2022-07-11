@@ -23,7 +23,7 @@ exports.discord = (client, message, args, database) => {
                 })
                 console.log(`Sent message: ${msg.content}`)
             })
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     if (!args[0]) {
@@ -35,7 +35,7 @@ exports.discord = (client, message, args, database) => {
                 })
                 console.log(`Sent message: ${message.content}`)
             })
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     const member = message.member;
@@ -57,7 +57,7 @@ exports.discord = (client, message, args, database) => {
                     })
                     console.log(`Sent message: ${message.content}`)
                 })
-                .catch(console.error);
+                .catch(logs.error);
         }
     }
 
@@ -85,7 +85,7 @@ exports.discord = (client, message, args, database) => {
 exports.twitch = (client, channel, userstate, args, database) => {
     client.say(channel, `@${userstate.username}, that is a discord only command.`)
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 exports.help = {

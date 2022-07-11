@@ -21,7 +21,7 @@ exports.userLeave = (client, member, guild) => {
             });
             console.log('Deleted role ' + deleted.name);
         })
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 /**
@@ -47,7 +47,7 @@ exports.verify = (guild) => {
                     });
                     console.log('Deleted role ' + deleted.name);
                 })
-                .catch(console.error);
+                .catch(logs.error);
         } else {
             roleMembers.forEach(member => {
                 // not supposed to have this role
@@ -62,7 +62,7 @@ exports.verify = (guild) => {
                             console.log(
                                 `Removed role ${role.name} from user ${member.user.tag} (${member.id})`);
                         })
-                        .catch(console.error);
+                        .catch(logs.error);
                 }
             });
         }
@@ -144,8 +144,8 @@ function createRole(member, color, reason) {
                     });
                     console.log(`Added role ${r.name} to user ${member.user.tag} (${member.id})`);
                 })
-                .catch(console.error);
+                .catch(logs.error);
             return r;
         })
-        .catch(console.error);
+        .catch(logs.error);
 }

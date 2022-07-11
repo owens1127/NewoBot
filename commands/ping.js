@@ -27,9 +27,9 @@ exports.discord = (client, message, args) => {
                         new_message: edt.content
                     });
                 })
-                .catch(console.error);
+                .catch(logs.error);
         })
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 /**
@@ -43,7 +43,7 @@ exports.discord = (client, message, args) => {
 exports.twitch = (client, channel, userstate, args, database) => {
     client.say(channel, 'Pong!')
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 exports.help = {

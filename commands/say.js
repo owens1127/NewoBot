@@ -20,9 +20,9 @@ exports.discord = async (client, message, args, database) => {
             });
             console.log(`Echoed message from ${message.author.tag}: ${msg.content}`)
         })
-        .catch(console.error);
+        .catch(logs.error);
 
-    await message.delete().catch(console.error);
+    await message.delete().catch(logs.error);
     console.log(`Deleted original message after echoing`);
 
 };
@@ -46,7 +46,7 @@ exports.twitch = (client, channel, userstate, args, database) => {
             });
             console.log(`Echoed message from ${userstate.username}: ${message}`);
         })
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 exports.help = {

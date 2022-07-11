@@ -41,7 +41,7 @@ exports.discord = (client, message, database) => {
                 logs.error(error);
             }
         } catch (error) {
-            console.error(error);
+            logs.error(error);
         }
     }
 };
@@ -83,7 +83,7 @@ exports.twitch = (client, channel, userstate, message, database) => {
                 console.log(error);
             }
         } catch (error) {
-            console.error(error);
+            logs.error(error);
         }
     }
 };

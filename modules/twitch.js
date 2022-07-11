@@ -56,8 +56,8 @@ exports.run = (cached, clientID, secret, discord_client) => {
                 else {
                     goLive(getResponse.data[0], discord_client, channel, streamer);
                 }
-            }).catch(console.error);
-    }).catch(console.error);
+            }).catch(logs.error);
+    }).catch(logs.error);
 };
 
 /**
@@ -95,7 +95,7 @@ function goLive(data, client, channel, streamer) {
             });
             console.log('Sent message: ' + msg);
         })
-        .catch(console.error);
+        .catch(logs.error);
 
     client.user.setActivity(`twitch.tv/${streamer}`,
         {url: `https://twitch.tv/${streamer}`, type: 'STREAMING'})
@@ -106,5 +106,5 @@ function goLive(data, client, channel, streamer) {
             });
             console.log('Updated Activity to STREAMING');
         })
-        .catch(console.error);
+        .catch(logs.error);
 }

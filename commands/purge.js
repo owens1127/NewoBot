@@ -23,7 +23,7 @@ exports.discord = async (client, message, args, database) => {
                 })
                 console.log(`Sent message: ${message.content}`)
             })
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     const deleteCount = parseInt(args[0], 10) + 1;
@@ -37,7 +37,7 @@ exports.discord = async (client, message, args, database) => {
                 })
                 console.log(`Sent message: ${message.content}`)
             })
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     const fetched = await message.channel.messages.fetch({limit: deleteCount});
@@ -54,7 +54,7 @@ exports.discord = async (client, message, args, database) => {
             message.reply(`Couldn't delete ${fetched.size} messages because of: ${error}`)
                 .then(() => console.log(
                     `Sent a reply to ${message.author.tag}: 'Couldn't delete all messages because of: ${error}'`))
-                .catch(console.error);
+                .catch(logs.error);
         });
 };
 
@@ -69,7 +69,7 @@ exports.discord = async (client, message, args, database) => {
 exports.twitch = (client, channel, userstate, args, database) => {
     client.say(channel, `@${userstate.username}, that is a discord only command.`)
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 exports.help = {

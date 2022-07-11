@@ -88,7 +88,7 @@ exports.run = (db) => {
                 .then(msg => logs.logAction('Sent message', {
                     content: msg.content, guild: msg.guild
                 }))
-                .catch(console.error);
+                .catch(logs.error);
 
             require('./modules/roleColor.js').new(member);
         }
@@ -120,7 +120,7 @@ exports.run = (db) => {
     });
 
 // ERROR
-    discord_client.on('error', console.error);
+    discord_client.on('error', logs.error);
 
 // LOGIN
 

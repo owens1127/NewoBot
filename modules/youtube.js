@@ -38,10 +38,10 @@ exports.run = (key, client) => {
                         });
                     })
 
-                    .catch(console.error);
+                    .catch(logs.error);
             });
         })
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 /**

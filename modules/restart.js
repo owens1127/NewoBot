@@ -20,7 +20,7 @@ exports.message = (message, env) => {
             });
             console.log('Sent message: ' + msg);
         })
-        .catch(console.error);
+        .catch(logs.error);
     restart(token);
 };
 
@@ -40,5 +40,5 @@ function restart(token) {
             'Authorization': 'Bearer ' + token
         }
     })
-        .catch(console.error);
+        .catch(logs.error);
 }

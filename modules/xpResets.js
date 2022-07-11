@@ -16,7 +16,7 @@ exports.daily = (client, database) => {
                         SET daily = 0
                         WHERE 1`, (err) => {
             if (err) {
-                console.error(err);
+                logs.error(err);
             }
             logs.logAction('Reset XP', {
                 leaderboard: 'daily'
@@ -60,7 +60,7 @@ exports.weekly = (client, database) => {
                         FROM ${table}
                         WHERE 1`, (err, data) => {
             if (err) {
-                console.error(err);
+                logs.error(err);
             }
             util.sendLeaderboard('WEEKLY', embed, channel, data);
         });
@@ -69,7 +69,7 @@ exports.weekly = (client, database) => {
                         SET weekly = 0
                         WHERE 1`, (err) => {
             if (err) {
-                console.error(err);
+                logs.error(err);
             } else {
                 logs.logAction('Reset XP', {
                     leaderboard: 'weekly'
@@ -107,7 +107,7 @@ exports.monthly = (client, database) => {
                         FROM ${table}
                         WHERE 1`, (err, data) => {
             if (err) {
-                console.error(err);
+                logs.error(err);
             }
             let winner = util.sendLeaderboard('MONTHLY', embed, channel, data);
 
@@ -118,14 +118,14 @@ exports.monthly = (client, database) => {
                         guild: msg.guild
                     });
                 })
-                .catch(console.error);
+                .catch(logs.error);
         });
 
         database.query(`UPDATE ${table}
                         SET monthly = 0
                         WHERE 1`, (err) => {
             if (err) {
-                console.error(err);
+                logs.error(err);
             } else {
                 logs.logAction('Reset XP', {
                     leaderboard: 'Monthly'

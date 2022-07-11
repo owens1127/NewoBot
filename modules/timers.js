@@ -10,7 +10,7 @@ exports.discord = (env, client, database) => {
         let guilds = client.guilds.cache;
         guilds.forEach(g => {
             g.members.fetch()
-                .catch(console.error);
+                .catch(logs.error);
         });
     }, 180000);
 
@@ -117,7 +117,7 @@ function sendFridayMessage(client) {
             }).then(() => {
                 console.log('Sent Friday sailor message to ' + g.name);
             })
-                .catch(console.error);
+                .catch(logs.error);
         }
     });
     logs.logAction('Sent Friday Messages', {

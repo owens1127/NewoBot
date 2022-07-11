@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const Connection = require('mysql/lib/Connection');
 const config = require('../config.json');
 const util = require('../functions/util');
+const logs = require('../functions/logging');
 
 /**
  * Handles a Discord command
@@ -56,7 +57,7 @@ exports.discord = (client, message, args, database) => {
 exports.twitch = (client, channel, userstate, args, database) => {
     client.say(channel, `@${userstate.username}, that is a discord only command.`)
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 exports.help = {

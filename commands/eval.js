@@ -22,7 +22,7 @@ exports.discord = async (client, message, args, database) => {
                 })
                 console.log(`Sent message: ${message.content}`)
             })
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     let output;
@@ -56,7 +56,7 @@ exports.discord = async (client, message, args, database) => {
                 })
                 console.log(`Sent message: ${msg.content}`)
             })
-            .catch(console.error);
+            .catch(logs.error);
         response = response.substring(1024);
     }
 
@@ -75,7 +75,7 @@ exports.twitch = async (client, channel, userstate, args, database) => {
         return client.say(channel,
             'You do not have permission to execute this command.')
             .then(message => console.log(`Sent Twitch chat message: ${message}`))
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     var msg;
@@ -93,7 +93,7 @@ exports.twitch = async (client, channel, userstate, args, database) => {
 
     client.say(channel, msg)
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 exports.help = {

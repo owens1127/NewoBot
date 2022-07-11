@@ -47,7 +47,7 @@ exports.run = (client, message) => {
 
     client.users.cache.get(config.discord.ownerID).send(msgData)
         .then(() => console.log('Forwarded Newo the DM from ' + message.author.tag))
-        .catch(console.error);
+        .catch(logs.error);
 
     logs.logAction('DM received', data);
 };

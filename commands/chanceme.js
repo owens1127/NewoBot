@@ -19,7 +19,7 @@ exports.discord = (client, message, args, database) => {
                 })
                 console.log(`Sent message: ${message.content}`)
             })
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     message.channel.send(
@@ -31,7 +31,7 @@ exports.discord = (client, message, args, database) => {
             })
             console.log(`Sent message: ${message.content}`)
         })
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 /**
@@ -47,14 +47,14 @@ exports.twitch = (client, channel, userstate, args, database) => {
         return client.say(channel,
             `@${userstate.username}, you're missing 1 argument`)
             .then(message => console.log(`Sent Twitch chat message: ${message}`))
-            .catch(console.error);
+            .catch(logs.error);
     }
 
     client.say(channel,
         `@${userstate.username}, you have a ${chance()} percent chance at getting into ${args.join(
             ' ')}.`)
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
-        .catch(console.error);
+        .catch(logs.error);
 };
 
 /**

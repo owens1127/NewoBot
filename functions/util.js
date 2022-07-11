@@ -113,9 +113,9 @@ exports.sendLeaderboard = (style, embed, channel, data) => {
                     server: channel.guild
                 });
             })
-            .catch(console.error);
+            .catch(logs.error);
     })
-        .catch(console.error);
+        .catch(logs.error);
     return sorted[0];
 
 }
@@ -140,7 +140,7 @@ exports.dmUser = (message, msgOptions) => {
                         embed: '!help embed'
                     });
                 })
-                .catch(console.error);
+                .catch(logs.error);
         });
 }
 
