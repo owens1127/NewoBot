@@ -48,11 +48,11 @@ exports.logAction = (action, data) => {
  * @param {Error} err the error emitted
  */
 exports.error = (err) => {
-    console.log(err);
+    console.error(err);
 
     const embed = new Discord.MessageEmbed();
     util.newoSignature(embed);
-    embed.setTitle('App Crashed');
+    embed.setTitle('App Error');
     embed.setColor('#ff4747');
 
     embed.addField('error', err.name);

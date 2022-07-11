@@ -96,6 +96,8 @@ exports.run = (db) => {
 
 // USER LEAVES SERVER
     discord_client.on('guildMemberRemove', member => {
+        if (member.user.bot) return;
+
         logs.logAction('User Leave', {
             user: member, guild: member.guild
         });
@@ -103,6 +105,8 @@ exports.run = (db) => {
         if (util.isPremiumGuild(member.guild)) {
             require('./modules/roleColor.js').userLeave(discord_client, member, member.guild);
         }
+        const thirtyDays = 1000 * 60 * 60 * 24 * 30;
+        require('./modules/handleXP').conditionalDelete(discord_client, member, db, {minXP: 200, recency: thirtyDays});
 
     });
 
@@ -118,9 +122,11 @@ exports.run = (db) => {
 // ERROR
     discord_client.on('error', console.error);
 
-    // LOGIN
+// LOGIN
 
     discord_client.login(env.DISCORD_TOKEN)
         .then(() => console.log('READY'))
         .catch(console.error);
 }
+
+

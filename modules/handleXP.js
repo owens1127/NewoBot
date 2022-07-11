@@ -4,6 +4,7 @@ const config = require('../config.json');
 const logs = require('../functions/logging');
 const util = require('../functions/util');
 const mysql = require('mysql');
+const https = require('https');
 
 /**
  * Evaluates XP earned per message
@@ -138,10 +139,8 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                 throw err;
             }
             if (data[0] === undefined) {
-                throw new TypeError(`data undefined for query: SELECT *
-                        FROM ${table}
-                        WHERE id = '${newVoiceState.member.id}':\n
-                        UPDATING voice channel XP for ${newVoiceState.member.user.tag} in ${newVoiceState.guild.name}`);
+                throw new TypeError(
+                    `Unable to retrieve data for ${newVoiceState.member.user.tag} in ${newVoiceState.guild.name}`);
             }
             const time = Math.floor(new Date().getTime() / 60000);
             const diff = time - data[0].voiceStart;
@@ -225,19 +224,71 @@ exports.new = (member, database) => {
                                  ${newData.monthly}, ${newData.lastMessage},
                                  ${newData.voiceStart})`;
 
-            database.query(sql, () => {
+            database.query(sql, (err) => {
                 if (err) {
                     throw err;
                 }
                 logs.logAction('User added to Database', {
                     user: member, server: member.guild.name
                 });
-                console.log(`User ${member.tag} added to Database`);
+                console.log(`User ${member.user.tag} added to XP Database in ${member.guild.name}`);
             });
         }
     });
 
 };
+
+/**
+ * Deletes a user from the database if they have not reached a certain XP threshold
+ * @param {Discord.Client} client the connection to discord
+ * @param {Discord.GuildMember} member the guild member (the user)
+ * @param {Connection.prototype} database the connection to the database
+ * @param {{}} options the parameters needed to stay
+ */
+exports.conditionalDelete = (client, member, database, options) => {
+    const table = `xp_${member.guild.id}`;
+    const selectString = `SELECT xp, lastMessage FROM ${table} WHERE id = '${member.id}'`
+
+    new Promise((resolve, reject) => {
+        database.query(selectString, (err, data) => {
+            if (err) {
+                reject(err);
+            } else if (data[0] === undefined) {
+                reject(new TypeError(
+                    `Unable to retrieve data for user ${member.user.tag} in ${member.guild.name}`));
+            } else {
+                resolve(data[0]);
+            }
+        });
+
+    })
+        .then(data => {
+            if (data.xp < options.minXP
+                || new Date().getTime() -  data.lastMessage > options.recency) {
+                const deleteString = `DELETE
+                              FROM ${table}
+                              WHERE id = '${member.id}';`
+                logs.logAction('User would be removed from Database', {
+                    xp: data.xp,
+                    lastMessage: data.lastMessage,
+                    user: member.user.tag,
+                    server: member.guild.name
+                })
+                // TODO beta testing
+                // database.query(deleteString, (err) => {
+                //     if (err) {
+                //         throw err;
+                //     }
+                //     logs.logAction('User removed from Database', {
+                //         user: member, server: member.guild.name
+                //     });
+                //     console.log(
+                //         `User ${member.user.tag} removed from the xp database in ${member.guild.name}`);
+                // });
+            }
+        })
+        .catch(logs.error);
+}
 
 /**
  * Calculates the level data for a user
