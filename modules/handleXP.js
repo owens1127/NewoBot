@@ -164,7 +164,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
                 sendLevelUpMsg(newVoiceState.member.user, channel, newLvl);
             }
 
-            console.log(`${oldVoiceState.member.user.tag} earned ${newXp} xp over ${diff} minutes`);
+            console.log(`${newVoiceState.member.user.tag} earned ${newXp} xp over ${diff} minutes`);
             let sql = `UPDATE ${table}
                        SET xp      = ${newData.xp},
                            daily   = ${newData.daily},
