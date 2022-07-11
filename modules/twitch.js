@@ -99,12 +99,10 @@ function goLive(data, client, channel, streamer) {
 
     client.user.setActivity(`twitch.tv/${streamer}`,
         {url: `https://twitch.tv/${streamer}`, type: 'STREAMING'})
-        .then(() => {
+        
             logs.logAction('Set Activity', {
                 activity: `twitch.tv/${streamer}`,
                 type: 'STREAMING'
             });
             console.log('Updated Activity to STREAMING');
-        })
-        .catch(logs.error);
 }
