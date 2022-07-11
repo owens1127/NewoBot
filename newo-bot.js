@@ -10,7 +10,7 @@ console.log(`Started ${new Date()}`);
 let database = connectToDatabase();
 
 // START BOTS
-discord.run(env, database);
+discord.run(database);
 twitch.run(env, database);
 
 /**
