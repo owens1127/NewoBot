@@ -55,9 +55,15 @@ exports.error = (err) => {
     embed.setTitle('App Error');
     embed.setColor('#ff4747');
 
-    embed.addField('error', err.name);
-    embed.addField('message', err.message);
-    embed.addField('stack', err.stack.substring(0, 800));
+    if (err.name) {
+        embed.addField('error', err.name);
+    }
+    if (err.message) {
+        embed.addField('message', err.message);
+    }
+    if (err.stack) {
+        embed.addField('stack', err.stack.substring(0, 800));
+    }
 
     channel.send({
         content: `\<@${config.discord.ownerID}\>`,

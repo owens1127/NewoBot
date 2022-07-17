@@ -5,6 +5,7 @@ const logs = require('../functions/logging');
 const util = require('../functions/util');
 const mysql = require('mysql');
 const https = require('https');
+const {message} = require('./restart');
 
 /**
  * Evaluates XP earned per message
@@ -23,7 +24,7 @@ exports.text = (client, message, database) => {
         if (err) {
             logs.error(err);
         }
-        if (rows[0] === undefined || rows[0] === null) {
+        if (!rows[0]) {
             return require('./handleXP').new(message.member, database);
         }
 
@@ -88,6 +89,17 @@ exports.text = (client, message, database) => {
 exports.voice = (client, oldVoiceState, newVoiceState, database) => {
     const guild = oldVoiceState.guild;
     const table = `xp_${guild.id}`;
+
+    database.query(`SELECT *
+                    FROM ${table}
+                    WHERE id = '${message.author.id}'`, (err, rows) => {
+        if (err) {
+            logs.error(err);
+        }
+        if (!rows[0]) {
+            return require('./handleXP').new(message.member, database);
+        }
+    });
 
     const oldState = {
         channelID: (oldVoiceState.channel !== null) ? oldVoiceState.channel.id : null,
