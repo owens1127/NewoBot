@@ -13,7 +13,6 @@ const DiscordUtil = require('discord.js/src/util/Util')
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-
     if (!util.isPremiumGuild(message.guild)) {
         return message.channel.send(
             'This command is only available in select servers')

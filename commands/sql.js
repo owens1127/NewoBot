@@ -14,6 +14,7 @@ const fs = require('fs');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = async (client, message, args, database) => {
+    message.channel.sendTyping();
     if (message.author.id !== config.discord.ownerID) {
         return message.channel.send(
             'You do not have permission to execute this command.')

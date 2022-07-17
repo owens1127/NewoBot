@@ -12,6 +12,8 @@ const util = require('../functions/util');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
+    message.channel.sendTyping();
+
     const table = `xp_${message.guild.id}`;
     let target;
     if (message.mentions.members.first()) {
@@ -21,8 +23,8 @@ exports.discord = (client, message, args, database) => {
     }
 
     database.query(`SELECT *
-               FROM ${table}
-               WHERE id = '${target.id}'`, (err, rows) => {
+                    FROM ${table}
+                    WHERE id = '${target.id}'`, (err, rows) => {
         if (err) {
             throw err;
         }

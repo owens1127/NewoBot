@@ -13,8 +13,8 @@ const util = require('../functions/util');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-
     if (args[0]) {
+        message.channel.sendTyping();
         // specified command
         let cmdNameLower = args[0].toLowerCase()
         if (args[0].indexOf(config.discord.prefix) === 0) {

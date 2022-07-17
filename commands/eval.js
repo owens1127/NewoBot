@@ -13,6 +13,7 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = async (client, message, args, database) => {
+    message.channel.sendTyping();
     if (message.author.id !== config.discord.ownerID) {
         return message.channel.send(
             'You do not have permission to execute this command.')
@@ -33,9 +34,9 @@ exports.discord = async (client, message, args, database) => {
     try {
         output = eval(input);
         if (output === null) {
-            response = "null"
+            response = 'null'
         } else if (output === undefined) {
-            response = ""
+            response = 'undefined'
         } else if (typeof output === 'object' && typeof output.then === 'function') {
             response = `Executed \`${input}\``;
         } else {
@@ -48,8 +49,8 @@ exports.discord = async (client, message, args, database) => {
     }
 
     while (response.length > 0) {
-        let sub = response.substring(0, 1024);
-        message.channel.send(sub)
+        let sub = response.substring(0, 1018);
+        message.channel.send('```' + sub + '```')
             .then(msg => {
                 logs.logAction('Sent Message', {
                     content: msg.content, guild: msg.guild
@@ -57,7 +58,7 @@ exports.discord = async (client, message, args, database) => {
                 console.log(`Sent message: ${msg.content}`)
             })
             .catch(logs.error);
-        response = response.substring(1024);
+        response = response.substring(1018);
     }
 
 };

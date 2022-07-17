@@ -132,6 +132,7 @@ exports.dmUser = (message, msgOptions) => {
         .catch(() => {
             console.log(`Failed to Private Message ${message.author.tag}`);
             console.log(`Attempting to Reply instead...`);
+            message.channel.sendTyping();
             message.channel.send(msgOptions)
                 .then(msg => {
                     console.log(`Sent Message: ` + msg.embeds);
