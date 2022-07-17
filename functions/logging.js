@@ -29,7 +29,7 @@ exports.logAction = (action, data) => {
     const fields = Object.keys(data);
     try {
         fields.forEach((field) => {
-            embed.addField(field.toString(), data[field].toString());
+            embed.addField(field.toString(), data[field].toString().substring(0, 1024));
         });
     } catch (err) {
         console.error(err);
@@ -59,10 +59,10 @@ exports.error = (err) => {
         embed.addField('error', err.name);
     }
     if (err.message) {
-        embed.addField('message', err.message);
+        embed.addField('message', err.message.substring(0, 1000));
     }
     if (err.stack) {
-        embed.addField('stack', err.stack.substring(0, 800));
+        embed.addField('stack', err.stack.substring(0, 1000));
     }
 
     channel.send({

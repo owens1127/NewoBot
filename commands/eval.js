@@ -49,7 +49,7 @@ exports.discord = async (client, message, args, database) => {
     }
 
     while (response.length > 0) {
-        let sub = response.substring(0, 1018);
+        let sub = response.substring(0, 1994);
         message.channel.send('```' + sub + '```')
             .then(msg => {
                 logs.logAction('Sent Message', {
@@ -58,7 +58,7 @@ exports.discord = async (client, message, args, database) => {
                 console.log(`Sent message: ${msg.content}`)
             })
             .catch(logs.error);
-        response = response.substring(1018);
+        response = response.substring(1994);
     }
 
 };
