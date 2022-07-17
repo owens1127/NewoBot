@@ -1,4 +1,5 @@
 const config = require('../config.json');
+const Discord = require('discord.js');
 const logs = require('../functions/logging');
 
 /**
@@ -16,12 +17,12 @@ exports.discord = (client, message, args, database) => {
                 logs.logAction('Sent Message', {
                     content: msg.content, guild: msg.guild
                 })
-                console.log(`Sent message: ${message.content}`)
+                console.log(`Sent message: ${msg.content}`)
             })
             .catch(logs.error);
     }
 
-    require('../modules/restart').message(message, process.env.HEROKU_TOKEN);
+    require('../modules/restart').message(process.env.HEROKU_TOKEN);
 };
 
 /**
