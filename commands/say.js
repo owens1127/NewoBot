@@ -11,6 +11,7 @@ const Connection = require('mysql/lib/Connection')
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = async (client, message, args, database) => {
+    message.channel.sendTyping();
     let parrot = args.join(' ');
     message.channel.send(parrot)
         .then(msg => {

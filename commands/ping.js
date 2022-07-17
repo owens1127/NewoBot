@@ -11,6 +11,7 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args) => {
+    message.channel.sendTyping();
     message.channel.send('Ping?')
         .then(msg => {
             console.log(`Sent message: ${msg.content}`);

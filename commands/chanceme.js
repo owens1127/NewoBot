@@ -11,6 +11,7 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
+    message.channel.sendTyping();
     if (args.length < 1) {
         return message.channel.send(`${message.author}, you're missing 1 argument`)
             .then(msg => {
@@ -23,7 +24,7 @@ exports.discord = (client, message, args, database) => {
     }
 
     message.channel.send(
-        `${message.author}, you have a ${chance()} percent chance at getting into ${args.join(
+        `${message.author}, you have a ${chance()} at ${args.join(
             ' ')}.`)
         .then(msg => {
             logs.logAction('Sent Message', {
@@ -51,7 +52,7 @@ exports.twitch = (client, channel, userstate, args, database) => {
     }
 
     client.say(channel,
-        `@${userstate.username}, you have a ${chance()} percent chance at getting into ${args.join(
+        `@${userstate.username}, you have a ${chance()} percent chance at ${args.join(
             ' ')}.`)
         .then(message => console.log(`Sent Twitch chat message: ${message}`))
         .catch(logs.error);
@@ -66,6 +67,6 @@ function chance() {
 }
 
 exports.help = {
-    description: "how likely you are getting into something",
+    description: "how likely you are to do something",
     usage: `${config.discord.prefix}chanceme <thing>`
 };
