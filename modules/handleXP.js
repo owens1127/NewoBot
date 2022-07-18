@@ -92,7 +92,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
 
     database.query(`SELECT *
                     FROM ${table}
-                    WHERE id = '${message.author.id}'`, (err, rows) => {
+                    WHERE id = '${newVoiceState.member.id}'`, (err, rows) => {
         if (err) {
             logs.error(err);
         }
