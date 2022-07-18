@@ -286,17 +286,16 @@ exports.conditionalDelete = (client, member, database, options) => {
                     user: member.user.tag,
                     server: member.guild.name
                 })
-                // TODO beta testing
-                // database.query(deleteString, (err) => {
-                //     if (err) {
-                //         throw err;
-                //     }
-                //     logs.logAction('User removed from Database', {
-                //         user: member, server: member.guild.name
-                //     });
-                //     console.log(
-                //         `User ${member.user.tag} removed from the xp database in ${member.guild.name}`);
-                // });
+                database.query(deleteString, (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    logs.logAction('User removed from Database', {
+                        user: member, server: member.guild.name
+                    });
+                    console.log(
+                        `User ${member.user.tag} removed from the xp database in ${member.guild.name}`);
+                });
             }
         })
         .catch(logs.error);
