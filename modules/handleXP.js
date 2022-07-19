@@ -97,7 +97,7 @@ exports.voice = (client, oldVoiceState, newVoiceState, database) => {
             logs.error(err);
         }
         if (!rows[0]) {
-            return require('./handleXP').new(message.member, database);
+            return require('./handleXP').new(newVoiceState.member, database);
         }
     });
 
