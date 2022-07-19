@@ -66,6 +66,7 @@ exports.text = (client, message, database) => {
                     source: 'Text XP',
                     user: message.author,
                     server: message.guild.name,
+                    channel: message.channel,
                     xp_gained: genXp
                 });
                 console.log(`Updated XP database in ${message.guild.name}`);
@@ -280,9 +281,9 @@ exports.conditionalDelete = (client, member, database, options) => {
                 const deleteString = `DELETE
                               FROM ${table}
                               WHERE id = '${member.id}';`
-                logs.logAction('User would be removed from Database', {
+                logs.logAction('User removed from Database', {
                     xp: data.xp,
-                    lastMessage: data.lastMessage,
+                    lastMessage: new Date(data.lastMessage).toDateString(),
                     user: member.user.tag,
                     server: member.guild.name
                 })
