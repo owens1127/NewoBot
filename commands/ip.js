@@ -21,10 +21,10 @@ exports.discord = (client, message, args, database) => {
         person = message.author;
     }
 
-    const vals = new Array(4);
-    vals.map(() => {
-        return Math.floor(Math.random() * 256);
-    })
+    const vals = [];
+    for (let x = 0; x < 4; x++) {
+        vals.push(Math.floor(Math.random() * 256));
+    }
     const m = `${person}'s IP: \`${vals.join('.')}\``;
 
     message.channel.send(m)
