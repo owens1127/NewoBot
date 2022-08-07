@@ -14,8 +14,7 @@ const util = require('../functions/util');
  */
 exports.discord = (client, message, args, database) => {
     if (args[0]) {
-        message.channel.sendTyping();
-        // specified command
+                // specified command
         let cmdNameLower = args[0].toLowerCase()
         if (args[0].indexOf(config.discord.prefix) === 0) {
             cmdNameLower = args[0].slice(1, args[0].length).toLowerCase();

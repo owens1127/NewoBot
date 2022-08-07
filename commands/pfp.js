@@ -11,8 +11,7 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-    message.channel.sendTyping();
-    let person;
+        let person;
     if (message.mentions.users.size !== 0) {
         person = message.mentions.users.first();
     } else {

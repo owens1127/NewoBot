@@ -12,8 +12,7 @@ const util = require('../functions/util');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-    message.channel.sendTyping();
-
+    
     const table = `xp_${message.guild.id}`;
     let target;
     if (message.mentions.members.first()) {

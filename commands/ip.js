@@ -13,7 +13,6 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-    message.channel.sendTyping();
     let person;
     if (message.mentions.users.size !== 0) {
         person = message.mentions.users.first();
@@ -36,7 +35,6 @@ exports.discord = (client, message, args, database) => {
         })
         .catch(logs.error);
 
-
 };
 
 /**
@@ -54,6 +52,6 @@ exports.twitch = (client, channel, userstate, args, database) => {
 };
 
 exports.help = {
-    description: 'sends a link for someone\'s url',
+    description: 'sends a fake IPV4 ip for a user',
     usage: `${config.discord.prefix}ip [user]`
 };

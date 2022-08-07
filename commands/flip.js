@@ -9,8 +9,7 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-    message.channel.sendTyping();
-    return message.channel.send(genMessage())
+        return message.channel.send(genMessage())
         .then(msg => {
             logs.logAction('Sent Message', {
                 content: msg.content, guild: msg.guild

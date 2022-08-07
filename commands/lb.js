@@ -12,8 +12,7 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-    message.channel.sendTyping();
-    const table = `xp_${message.guild.id}`;
+        const table = `xp_${message.guild.id}`;
 
     console.log('Creating a leaderboard for ' + table);
 

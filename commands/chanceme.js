@@ -11,8 +11,7 @@ const logs = require('../functions/logging');
  * @param {Connection.prototype} database the connection to the database
  */
 exports.discord = (client, message, args, database) => {
-    message.channel.sendTyping();
-    if (args.length < 1) {
+        if (args.length < 1) {
         return message.channel.send(`${message.author}, you're missing 1 argument`)
             .then(msg => {
                 logs.logAction('Sent Message', {
