@@ -56,14 +56,16 @@ exports.weekly = (client, database) => {
         const channel = util.getOutputChannel(g);
         const table = `xp_${g.id}`;
 
-        database.query(`SELECT *
-                        FROM ${table}
-                        WHERE 1`, (err, data) => {
-            if (err) {
-                logs.error(err);
-            }
-            util.sendLeaderboard('WEEKLY', embed, channel, data);
-        });
+        if (channel.guild.id !== '940175456492224512') {
+            database.query(`SELECT *
+                            FROM ${table}
+                            WHERE 1`, (err, data) => {
+                if (err) {
+                    logs.error(err);
+                }
+                util.sendLeaderboard('WEEKLY', embed, channel, data);
+            });
+        }
 
         database.query(`UPDATE ${table}
                         SET weekly = 0
@@ -103,23 +105,25 @@ exports.monthly = (client, database) => {
         const channel = util.getOutputChannel(g);
         const table = `xp_${g.id}`;
 
-        database.query(`SELECT *
-                        FROM ${table}
-                        WHERE 1`, (err, data) => {
-            if (err) {
-                logs.error(err);
-            }
-            let winner = util.sendLeaderboard('MONTHLY', embed, channel, data);
+        if (channel.guild.id !== '940175456492224512') {
+            database.query(`SELECT *
+                            FROM ${table}
+                            WHERE 1`, (err, data) => {
+                if (err) {
+                    logs.error(err);
+                }
+                let winner = util.sendLeaderboard('MONTHLY', embed, channel, data);
 
-            channel.send(`Congratulations, ${channel.guild.members.cache.get(winner.id)}, you topped the leaderboard this month with ${winner.monthly} xp!`)
-                .then(msg => {
-                    logs.logAction('Sent message', {
-                        content: msg.content,
-                        guild: msg.guild
-                    });
-                })
-                .catch(logs.error);
-        });
+                channel.send(`Congratulations, ${channel.guild.members.cache.get(winner.id)}, you topped the leaderboard this month with ${winner.monthly} xp!`)
+                    .then(msg => {
+                        logs.logAction('Sent message', {
+                            content: msg.content,
+                            guild: msg.guild
+                        });
+                    })
+                    .catch(logs.error);
+            });
+        }
 
         database.query(`UPDATE ${table}
                         SET monthly = 0
