@@ -31,7 +31,7 @@ exports.run = (db) => {
             time: Date.now()
         });
 
-        discord_client.user.setActivity('Just restarted', {type: 'PLAYING'});
+        discord_client.user.setActivity('the service come online', {type: 'WATCHING'});
         logs.logAction('Set Activity', {
             activity: 'the service come online', type: 'WATCHING'
         });
