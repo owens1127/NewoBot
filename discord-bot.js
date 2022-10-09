@@ -33,7 +33,7 @@ exports.run = (db) => {
 
         discord_client.user.setActivity('Just restarted', {type: 'PLAYING'});
         logs.logAction('Set Activity', {
-            activity: 'Just restarted', type: 'PLAYING'
+            activity: 'the service come online', type: 'WATCHING'
         });
 
         // TIMERS
