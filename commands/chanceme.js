@@ -23,7 +23,7 @@ exports.discord = (client, message, args, database) => {
     }
 
     message.channel.send(
-        `${message.author}, you have a ${chance()} at ${args.join(
+        `${message.author}, you have a ${chance()} percent chance at ${args.join(
             ' ')}.`)
         .then(msg => {
             logs.logAction('Sent Message', {
